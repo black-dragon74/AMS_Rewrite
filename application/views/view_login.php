@@ -32,12 +32,11 @@
     </div>
     <div class="image-area"></div>
 </div>
-<?php include_once('includes/footer.php') ?>
 <!-- If there is an error in flash_data show that here-->
 <?php if ($this->session->flashdata('login_error') != '') { ?>
     <script type="text/javascript">
         $.notify({
-            title: "<b>Error:</b> ",
+            title: "<strong>Error:</strong> ",
             message: '<?php echo $this->session->flashdata('login_error');?>'
         },{
             type: 'danger',
@@ -51,7 +50,7 @@
 <?php if ($this->session->flashdata('logout_notification') != '') { ?>
     <script type="text/javascript">
         $.notify({
-            title: "<b>Success:</b> ",
+            title: "<strong>Success:</strong> ",
             message: '<?php echo $this->session->flashdata('logout_notification');?>'
         },{
             type: 'success',

@@ -27,7 +27,6 @@
     </div>
     <div class="image-area forgot-pass"></div>
 </div>
-<? include_once('includes/footer.php') ?>
 <!-- If there is an error in flash_data show that here-->
 <?php if ($this->session->flashdata('reset_error') != '') { ?>
     <script type="text/javascript">
