@@ -67,8 +67,9 @@ class crud_model extends CI_Model {
         $this->image_lib->resize();
 
         // Delete un-resized image from the server
-        unlink($uploadedImg);
-
+        if (file_exists($uploadedImg)){
+            unlink($uploadedImg);
+        }
     }
 
     // Function to get login details of a usertype from an input field based on params

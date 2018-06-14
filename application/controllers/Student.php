@@ -91,24 +91,6 @@ class Student extends CI_Controller {
     }
 
     function update_profile(){
-        $config = Array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'hellouniversum@gmail.com',
-            'smtp_pass' => 'RmGoogle74Sch'
-        );
-        $this->load->library('email', $config);
-
-        $this->email->from('nickk.2974@gmail.com', 'Niraj Yadav');
-        $this->email->to('folitina@taylorventuresllc.com');
-
-        $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.');
-
-        if (!$this->email->send()){
-            show_error($this->email->print_debugger());
-        }
 
         $username = $this->input->post('inputUser');
         $email = $this->input->post('inputEmail');

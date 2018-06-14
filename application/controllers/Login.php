@@ -102,6 +102,22 @@ class Login extends CI_Controller {
         $this->load->view('view_forgot', $data);
     }
 
+    private function send_reset_mail($email, $msg){
+        // Load the mailer library
+        $config['mailtype'] = 'html';
+        $this->load->library('email');
+
+        $this->email->from('ams@muj.edu', 'Manipal AMS');
+        $this->email->to($email);
+
+        $this->email->subject("AMS Password Reset");
+        $this->email->message($msg);
+
+        if (!$this->email->send()){
+            show_error($this->email->print_debugger());
+        }
+    }
+
     // Reset password method. Does the actual reset
     public function reset_password(){
 
@@ -123,7 +139,7 @@ class Login extends CI_Controller {
             $this->db->update('admin', $sendpassword);
 
             // Tell the user that the password has been resetted and tell new password.
-            $this->session->set_flashdata('reset_success', "Password resetted as: $newpassword");
+            $this->session->set_flashdata('reset_success', "Password reset as $newpassword");
             redirect(site_url('login/forgot_password'), 'refresh');
         }
 
@@ -142,8 +158,10 @@ class Login extends CI_Controller {
             $this->db->where('email', $email);
             $this->db->update('student', $sendpassword);
 
-            // Tell the user that the password has been resetted and tell new password.
-            $this->session->set_flashdata('reset_success', "Password resetted as: $newpassword");
+            // Send password reset mail
+            $this->send_reset_mail($email, "Hello,<br />Your new password is: <b>$newpassword</b><br/>-Manipal University, Jaipur");
+
+            $this->session->set_flashdata('reset_success', "An Email with password has been sent.");
             redirect(site_url('login/forgot_password'), 'refresh');
         }
 
