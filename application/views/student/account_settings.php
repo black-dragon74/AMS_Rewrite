@@ -15,7 +15,7 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
                 Account Settings
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="<?php echo site_url('student') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li>Dashboard</li>
                 <li class="active">Account Settings</li>
             </ol>
@@ -29,7 +29,7 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
                         <div class="box-body box-profile">
                             <img class="profile-user-img img-responsive img-circle" src="<?php echo $this->crud_model->get_profile_pic('student', $this->session->userdata('student_id'))?>" alt="User profile picture">
 
-                            <h3 class="profile-username text-center"><?php echo $studentInfo->name ?></h3>
+                            <h3 class="profile-username text-center"><?php echo ucfirst($studentInfo->uid) ?></h3>
 
                             <p class="text-muted text-center"><?php echo ucfirst($this->session->userdata('login_type')) ?></p>
 
@@ -65,10 +65,10 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
                             <div class="tab-pane active" id="settings">
                                 <form class="form-horizontal" enctype="multipart/form-data" autocomplete="off" method="post" action="<?php echo site_url('student/update_profile') ?>">
                                     <div class="form-group">
-                                        <label for="username" class="col-sm-2 control-label">Login ID</label>
+                                        <label for="username" class="col-sm-2 control-label">Username</label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="inputUser" id="username" placeholder="<?php echo $studentInfo->email ?>" disabled="">
+                                            <input type="text" class="form-control" name="inputUser" id="username" placeholder="<?php echo $studentInfo->uid ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">

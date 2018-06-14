@@ -36,6 +36,7 @@ class Login extends CI_Controller {
     		redirect (site_url('login'), 'refresh');
     	}
     }
+    // TODO use CRUD for parent, teacher and admin auth
 
     public function validate_login(){
         $email = $this->input->post('email');
@@ -59,20 +60,17 @@ class Login extends CI_Controller {
         }
 
         // Check for student
-        $query = $this->db->get_where('student', array('email' => $email));
-        if ($query->num_rows() > 0){
-            $row = $query->row(); // Gets a single row
-            if (password_verify($password, $row->password)){
-                // Login is successful
-                $this->session->set_userdata('student_login', '1');
-                $this->session->set_userdata('student_id', $row->student_id);
-                $this->session->set_userdata('login_user_id', $row->student_id);
-                $this->session->set_userdata('name', $row->name);
-                $this->session->set_userdata('login_type', 'student');
+        $row = $this->crud_model->get_login_info('email', 'student');
+        if (password_verify($password, $row->password)){
+            // Login is successful
+            $this->session->set_userdata('student_login', '1');
+            $this->session->set_userdata('student_id', $row->student_id);
+            $this->session->set_userdata('login_user_id', $row->student_id);
+            $this->session->set_userdata('name', $row->name);
+            $this->session->set_userdata('login_type', 'student');
 
-                // Action to do post login success (redirect)
-                redirect(site_url('student'), 'refresh');
-            }
+            // Action to do post login success (redirect)
+            redirect(site_url('student'), 'refresh');
         }
 
         // Check for parent

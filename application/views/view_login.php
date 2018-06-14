@@ -15,7 +15,7 @@
         <div class="login-content">
             <form method="post" role="form" id="form_login" action="<? echo site_url('login/validate_login')?>">
                 <div class="form-group">
-                    <input type="email" class="input-field" name="email" placeholder="Email" required autocomplete="off">
+                    <input type="text" class="input-field" name="email" placeholder="Email or Username" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <input type="password" class="input-field" name="password" placeholder="Password" required>

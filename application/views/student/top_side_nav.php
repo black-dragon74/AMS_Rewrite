@@ -23,7 +23,7 @@ $studentInfo = $this->db->get_where('student', array('student_id' => $this->sess
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?php echo $this->crud_model->get_profile_pic('student', $this->session->userdata('student_id'))?>" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Welcome, <?php echo $studentInfo->name ?></span>
+                        <span class="hidden-xs">Welcome, <?php echo ucfirst($studentInfo->uid) ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->

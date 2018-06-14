@@ -70,4 +70,14 @@ class crud_model extends CI_Model {
         unlink($uploadedImg);
 
     }
+
+    // Function to get login details of a usertype from an input field based on params
+    public function get_login_info($inputField, $usertype){
+        $this->db->where('uid', $this->input->post($inputField));
+        $this->db->or_where('email', $this->input->post($inputField));
+        $result = $this->db->get($usertype);
+
+        // Return row
+        return $result->row();
+    }
 }
