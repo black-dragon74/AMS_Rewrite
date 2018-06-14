@@ -1,4 +1,3 @@
-var activeitem;
 function comparePassword(){
     const pwd = $('#new-password').val();
     const rep = $('#re-password').val();
