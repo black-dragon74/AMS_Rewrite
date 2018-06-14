@@ -120,7 +120,7 @@ $studentInfo = $this->db->get_where('student', array('student_id' => $this->sess
                 </a>
             </li>
             <li>
-                <a href="feedback.html">
+                <a href="#not-added-yet">
                     <i class="fa fa-edit"></i> <span>Feedback</span>
                 </a>
             </li>

@@ -113,7 +113,7 @@ class Student extends CI_Controller {
         }
 
         // Update profile pic
-        move_uploaded_file($_FILES['inputImage']['tmp_name'], 'uploads/student_image/' . $this->session->userdata('student_id') . '.jpg');
+        $this->crud_model->update_profile_pic('inputImage', 'student');
 
         // Redirect
         $this->session->set_flashdata('success', "Profile updated successfully!");

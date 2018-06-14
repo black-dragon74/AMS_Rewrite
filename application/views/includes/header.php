@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/stylesheets/style.css'); ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-<link rel="stylesheet" type="text/css" href="http://localhost/management/assets/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('bower_components/bootstrap/dist/css/bootstrap.min.css')?>">
 <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.0/normalize.css">
 <!-- JQuery and custom scripts -->
 <script src="<?php echo base_url('assets/js/jquery.js');?>"></script>

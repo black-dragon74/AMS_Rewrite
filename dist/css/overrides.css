@@ -1,0 +1,83 @@
+.table-bordered > tbody > tr > th {
+	text-align: center !important;
+}
+
+#scrolltop {
+	display: none;
+	position: fixed;
+	width: 40px;
+	height: 40px;
+	background: #dd4b3985;
+	bottom: 30px;
+	right: 10px;
+	cursor: pointer;
+	animation: jump 1s linear infinite;
+	box-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+	border-radius: 4px;
+}
+
+@keyframes jump {
+	0% {
+		bottom: 30px;
+	}
+
+	50% {
+		bottom: 35px;
+	}
+
+	100% {
+		bottom: 30px;
+	}
+}
+
+#scrolltop::before {
+	content: '\f062';
+	line-height: 40px;
+	color: #fff;
+	padding: 12px;
+	font-size: 20px;
+	font-family: 'FontAwesome';
+}
+
+#scrolltop:hover {
+	animation-play-state: paused;
+}
+
+.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+    box-shadow: -8px 3px 15px rgba(0,0,0,0.5);
+}
+
+.small-box {
+	box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #dd4b39;
+    border-color: #d73925;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.custom-file-upload:hover {
+	background-color: #d73925;
+}
+
+input[type=file]{
+	z-index: -1;
+	position: absolute;
+}
+
+.input-red-error {
+	border: 2px solid red;
+	border-color: red !important;
+}

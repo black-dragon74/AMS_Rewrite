@@ -7,8 +7,8 @@
 <div class="main-content-wrapper">
     <div class="login-area">
         <div class="login-header">
-            <a href="http://localhost/management/login" class="logo">
-                <img src="http://localhost/management/assets/login_page/img/logo.png" height="60" alt="">
+            <a href="<?php echo site_url('login') ?>" class="logo">
+                <img src="<?php echo base_url('assets/img/logo.png') ?>" height="60" alt="">
             </a>
             <h2 class="title">Manipal University, Jaipur</h2>
         </div>
