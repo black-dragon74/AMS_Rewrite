@@ -20,6 +20,7 @@ class Student extends CI_Controller {
     {
         parent::__construct();
         $this->studentOrGTFO();
+        $this->crud_model->clear_cache();
     }
 
     public function index(){

@@ -29,6 +29,14 @@ class Login extends CI_Controller {
         $this->load->view('view_login', $data);
     }
 
+    private function checkAccess() {
+    	if ($this->session->userdata('login_user_id') == '') {
+    		// User not logged in yet, redirect
+    		$this->session->set_flashdata('login_error', 'You must login first');
+    		redirect (site_url('login'), 'refresh');
+    	}
+    }
+
     public function validate_login(){
         $email = $this->input->post('email');
         $password = $this->input->post('password');
@@ -98,7 +106,8 @@ class Login extends CI_Controller {
 
     // Reset password method. Does the actual reset
     public function reset_password(){
-        $email =$this->input->post('email');
+
+        $email = $this->input->post('email');
 
         // Check if email is valid for admin
         $sql = $this->db->get_where('admin', array('email' => $email));
@@ -168,6 +177,9 @@ class Login extends CI_Controller {
 
     // Logout function
     public function logout(){
+    	// Reroute direct calls to this method
+    	$this->checkAccess();
+
         // Dev note: Destroying a session also removes flash data
         // Using unset_userdata instead
         $session_vars = array(

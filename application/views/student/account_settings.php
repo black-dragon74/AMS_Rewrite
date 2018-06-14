@@ -1,5 +1,4 @@
 <?php
-$this->crud_model->clear_cache();
 include_once 'top_scripts.php'; include_once 'top_side_nav.php';
 ?>
     <script>
