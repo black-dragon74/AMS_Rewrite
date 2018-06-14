@@ -98,17 +98,7 @@ $(document).ready(function() {
         }
     });
 
-    // console.log($('ul.sidebar-menu li a').attr('href'));
-    // console.log(window.location.href)
-    $('ul.sidebar-menu li').on('click', function () {
-        if ($('ul.sidebar-menu li').children('a').attr('href') == window.location.href){
-            $('ul.sidebar-menu li').siblings().removeClass('active');
-            $(this).addClass('active');
-        }
+    $('img#profile-img').on('click', function () {
+        $('label.custom-file-upload').click();
     })
-
-    // if ($('ul.sidebar-menu li').children('a').attr('href') == window.location.href){
-    //     $('ul.sidebar-menu li').siblings().removeClass('active');
-    //     $('ul.sidebar-menu li').addClass('active');
-    // }
 });

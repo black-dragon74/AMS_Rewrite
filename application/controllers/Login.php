@@ -39,13 +39,11 @@ class Login extends CI_Controller {
     // TODO use CRUD for parent, teacher and admin auth
 
     public function validate_login(){
-        $email = $this->input->post('email');
         $password = $this->input->post('password');
 
         // Check for admin
-        $query = $this->db->get_where('admin', array('email' => $email));
-        if ($query->num_rows() > 0){
-            $row = $query->row(); // Gets a single row
+        $row = $this->crud_model->get_login_info('email', 'admin');
+        if (isset($row->password)){
             if (password_verify($password, $row->password)){
                 // Login is successful
                 $this->session->set_userdata('admin_login', '1');
@@ -61,22 +59,23 @@ class Login extends CI_Controller {
 
         // Check for student
         $row = $this->crud_model->get_login_info('email', 'student');
-        if (password_verify($password, $row->password)){
-            // Login is successful
-            $this->session->set_userdata('student_login', '1');
-            $this->session->set_userdata('student_id', $row->student_id);
-            $this->session->set_userdata('login_user_id', $row->student_id);
-            $this->session->set_userdata('name', $row->name);
-            $this->session->set_userdata('login_type', 'student');
+        if (isset($row->password)){
+            if (password_verify($password, $row->password)){
+                // Login is successful
+                $this->session->set_userdata('student_login', '1');
+                $this->session->set_userdata('student_id', $row->student_id);
+                $this->session->set_userdata('login_user_id', $row->student_id);
+                $this->session->set_userdata('name', $row->name);
+                $this->session->set_userdata('login_type', 'student');
 
-            // Action to do post login success (redirect)
-            redirect(site_url('student'), 'refresh');
+                // Action to do post login success (redirect)
+                redirect(site_url('student'), 'refresh');
+            }
         }
 
         // Check for parent
-        $query = $this->db->get_where('parent', array('email' => $email));
-        if ($query->num_rows() > 0){
-            $row = $query->row(); // Gets a single row
+        $row = $this->crud_model->get_login_info('email', 'parent');
+        if (isset($row->password)){
             if (password_verify($password, $row->password)){
                 // Login is successful
                 $this->session->set_userdata('parent_login', '1');
@@ -138,8 +137,10 @@ class Login extends CI_Controller {
             $this->db->where('email', $email);
             $this->db->update('admin', $sendpassword);
 
-            // Tell the user that the password has been resetted and tell new password.
-            $this->session->set_flashdata('reset_success', "Password reset as $newpassword");
+            // Send password reset mail
+            $this->send_reset_mail($email, "Hello,<br />Your new password is: <b>$newpassword</b><br/>-Manipal University, Jaipur");
+
+            $this->session->set_flashdata('reset_success', "An Email with password has been sent.");
             redirect(site_url('login/forgot_password'), 'refresh');
         }
 
@@ -180,8 +181,10 @@ class Login extends CI_Controller {
             $this->db->where('email', $email);
             $this->db->update('parent', $sendpassword);
 
-            // Tell the user that the password has been resetted and tell new password.
-            $this->session->set_flashdata('reset_success', "Password resetted as: $newpassword");
+            // Send password reset mail
+            $this->send_reset_mail($email, "Hello,<br />Your new password is: <b>$newpassword</b><br/>-Manipal University, Jaipur");
+
+            $this->session->set_flashdata('reset_success', "An Email with password has been sent.");
             redirect(site_url('login/forgot_password'), 'refresh');
         }
 

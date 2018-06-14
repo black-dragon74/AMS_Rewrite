@@ -78,7 +78,9 @@ class crud_model extends CI_Model {
         $this->db->or_where('email', $this->input->post($inputField));
         $result = $this->db->get($usertype);
 
-        // Return row
-        return $result->row();
+        // Return row if there is
+        if ($result->num_rows() != 0){
+            return $result->row();
+        }
     }
 }

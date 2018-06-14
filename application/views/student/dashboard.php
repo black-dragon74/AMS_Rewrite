@@ -17,6 +17,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo site_url('student') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="<?php echo site_url('student') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li>Dashboard</li>
         <li class="active">My Info</li>
       </ol>

@@ -81,3 +81,15 @@ input[type=file]{
 	border: 2px solid red;
 	border-color: red !important;
 }
+
+img#profile-img {
+	cursor: pointer;
+}
+
+.small-box {
+	overflow: hidden;
+}
+
+.box .border-bottom {
+	border-bottom: 1px solid #f4f4f4;
+}

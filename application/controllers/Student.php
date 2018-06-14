@@ -55,6 +55,12 @@ class Student extends CI_Controller {
         $newpassword = $this->input->post('new-password');
         $repassword = $this->input->post('re-password');
 
+        // If all three passwords are same, redirect
+        if ($password == $newpassword && $password == $repassword){
+            $this->session->set_flashdata('error', "All three values are same");
+            redirect(site_url('student/account_settings'), 'refresh');
+        }
+
         // First of all, existing password should be correct
         $studID = $this->session->userdata('student_id');
 
@@ -94,6 +100,12 @@ class Student extends CI_Controller {
 
         $username = $this->input->post('inputUser');
         $email = $this->input->post('inputEmail');
+
+        // If all fields are empty, redirect with error
+        if ($username == '' && $email == '' && $_FILES['inputImage']['tmp_name'] == '') {
+            $this->session->set_flashdata('error', 'Empty values not allowed!');
+            redirect(site_url('student/account_settings'), 'refresh');
+        }
 
         // If username is not empty, update the username
         if (!empty($username)){
