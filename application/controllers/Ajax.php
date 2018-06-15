@@ -27,13 +27,30 @@ class Ajax extends CI_Controller {
         $this->db->like($arg1, $arg2, 'after');
         $this->db->order_by('name', "ASC");
         $teacher = $this->db->get('student');
-        // TODO ADD DYNAMIC BACKGROUND TO FACULTY CARDS
+        $bg_counter = 0; $bg_color = '';
         $this->session->set_userdata('ajax_num_rows', $teacher->num_rows());
         if ($teacher->num_rows() != 0){
             foreach ($teacher->result() as $row){
+                $bg_counter++;
+                if ($bg_counter > 3) {
+                    $bg_counter = 1;
+                }
+                switch ($bg_counter){
+                    case 1:
+                        $bg_color = 'bg-red-active';
+                        break;
+                    case 2:
+                        $bg_color = 'bg-green-active';
+                        break;
+                    case 3:
+                        $bg_color = 'bg-blue-active';
+                        break;
+                    default:
+                        break;
+                }
                 echo '<div class="col-lg-4 col-md-6">
                         <div class="box box-widget widget-user">
-                            <div class="widget-user-header">
+                            <div class="widget-user-header '.$bg_color.'">
                                 <h3 class="widget-user-username">'.$row->name.'</h3>
                                 <h5 class="widget-user-desc">Professor</h5>
                             </div>
