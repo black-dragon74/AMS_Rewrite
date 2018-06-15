@@ -44,6 +44,10 @@
     <script src="<?php echo base_url('bower_components/jquery/dist/jquery.min.js')?>"></script>
     <!-- Notify Script -->
     <script src="<? echo base_url('assets/js/bootstrap-notify.js');?>"></script>
+    <!-- PACE -->
+    <script src="<?php echo base_url('bower_components/PACE/pace.min.js')?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url('plugins/pace/pace.min.css')?>">
+    <script>$(document).ajaxStart(function() { Pace.restart(); });</script>
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
