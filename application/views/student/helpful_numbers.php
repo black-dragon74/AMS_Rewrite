@@ -34,6 +34,7 @@
                                     <?php
                                     $this->db->distinct();
                                     $this->db->select('stream');
+                                    $this->db->order_by('stream', 'ASC');
                                     $res = $this->db->get('student');
                                     foreach ($res->result() as $tmp_row_stream){
                                         echo "<option value='{$tmp_row_stream->stream}'>$tmp_row_stream->stream</option>";
@@ -69,7 +70,7 @@
 
         // Send an AJAX request to the AJAX handler to fetch list of items
         $.ajax({
-            url: '<?php echo site_url("ajax/get_faculty_numbers")?>'+'/'+decodeURI(selected_stream),
+            url: '<?php echo site_url("ajax/get_faculty_numbers")?>'+'/'+selected_stream,
             data: {
                 'ams_ajax': 'true',
             },
