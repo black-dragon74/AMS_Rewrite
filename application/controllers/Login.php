@@ -214,7 +214,8 @@ class Login extends CI_Controller {
             'accountant_id',
             'login_user_id',
             'name',
-            'login_type'
+            'login_type',
+            'ajax_num_rows'
         );
 
         // Unset sessions now
