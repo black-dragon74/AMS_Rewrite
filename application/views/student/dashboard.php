@@ -117,16 +117,22 @@
                               $this->db->order_by('notice_id', 'asc');
                               $qry = $this->db->get('notices');
                               $th = 0;
-                              foreach ($qry->result() as $row){
-                                  // Incerement row count
-                                  $th++
-                                  ?>
+                              if ($qry->num_rows() == 0){
+                                  echo "<tr>
+                                        <th colspan='3'>No Notices found for $studentInfo->stream!</th>
+                                  </tr>";
+                              }
+                              else{
+                                  foreach ($qry->result() as $row){
+                                      // Incerement row count
+                                      $th++;
+                              ?>
                                   <tr>
                                       <th><?php echo $th ?></th>
                                       <td><?php echo $row->notice ?></td>
                                       <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
                                   </tr>
-                              <?php }
+                              <?php }}
                               ?>
                         </tbody>
                     </table>

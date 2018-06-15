@@ -45,7 +45,6 @@ class Student extends CI_Controller {
     }
 
     public function account_settings(){
-
         $data['title'] = 'Account Settings';
         $this->load->view('student/account_settings', $data);
     }

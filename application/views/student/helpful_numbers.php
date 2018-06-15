@@ -20,57 +20,72 @@
             <li class="active">Helpful Numbers</li>
         </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <?php
-            // Display student info as of now
-            $teacher = $this->db->get('student');
-            foreach ($teacher->result() as $row) { ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="box box-widget widget-user">
-                        <div class="widget-user-header bg-green-gradient">
-                            <h3 class="widget-user-username"><?php echo $row->name?></h3>
-                            <h5 class="widget-user-desc">Professor</h5>
-                        </div>
-                        <div class="widget-user-image">
-                            <img class="img-circle" src="<?php echo $this->crud_model->get_profile_pic('student', $row->student_id)?>" alt="User Avatar">
-                        </div>
-                        <div class="box-footer">
-                            <div class="row">
-                                <div class="col-sm-12 col-xs-12 border-bottom">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><i class="fa fa-envelope"></i></h5>
-                                        <span class="description-text"><?php echo $row->email ?></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xs-6 border-right border-bottom">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><i class="fa fa-graduation-cap"></i></h5>
-                                        <span class="description-text"><?php echo $row->stream ?></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xs-6 border-right border-bottom">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><i class="fa fa-phone"></i></h5>
-                                        <span class="description-text"><?php echo '+91-'.$row->phone ?></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-xs-12">
-                                    <div class="description-block">
-                                        <h5 class="description-header"><i class="fa fa-map-marker"></i></h5>
-                                        <span class="description-text"><?php echo $row->address ?></span>
-                                    </div>
-                                </div>
+            <div class="col-lg-12 col-xs-12">
+                <form method="post">
+                    <div class="form-group">
+                        <label>Department</label>
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6">
+                                <select class="form-control" id="input-select-stream" required>
+                                    <option value="">-- SELECT --</option>
+                                    <?php
+                                    $this->db->distinct();
+                                    $this->db->select('stream');
+                                    $res = $this->db->get('student');
+                                    foreach ($res->result() as $tmp_row_stream){
+                                        echo "<option value='{$tmp_row_stream->stream}'>$tmp_row_stream->stream</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 col-xs-6">
+                                <input type="submit" id="get-faculty-numbers" class="form-control btn btn-danger" value="Get Details">
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php
-            }
-            ?>
+                </form>
+            </div>
+        </div>
+        <div id="faculty-numbers" class="row">
+
         </div>
     </section>
 </div>
+<script>
+    $('#get-faculty-numbers').on('click', function (e) {
+        // Get selected stream from DOM
+        const selected_stream = $('#input-select-stream').val();
+
+        // Stop the submit button from posting the content
+        e.preventDefault();
+
+        if (selected_stream === ''){
+            alert ('Select a stream first');
+            return;
+        }
+
+        // Send an AJAX request to the AJAX handler to fetch list of items
+        $.ajax({
+            url: '<?php echo site_url("ajax/get_faculty_numbers")?>'+'/'+decodeURI(selected_stream),
+            data: {
+                'ams_ajax': 'true',
+            },
+            type: 'post',
+            beforeSend: function () {
+                $('#get-faculty-numbers').attr('value', "Loading...").prop("disabled", true);
+            },
+            success: function (response) {
+                $('#get-faculty-numbers').attr('value', "Get Details").prop("disabled", false);
+                $('div#faculty-numbers').empty().html(response);
+            },
+            error: function () {
+                $('#get-faculty-numbers').attr('value', "Get Details").prop("disabled", false);
+                alert('SERVER ERROR OCCOURED');
+            }
+        });
+    });
+</script>
 <?php include_once 'footer.php'; include_once 'bottom_scripts.php';?>
