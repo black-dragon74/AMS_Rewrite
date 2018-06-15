@@ -53,7 +53,13 @@ class Login extends CI_Controller {
                 $this->session->set_userdata('login_type', 'admin');
 
                 // Action to do post login success (redirect)
-                redirect(site_url('admin'), 'refresh');
+                $redir = $this->input->get('redirect');
+                if (!empty($redir)){
+                    redirect(site_url($redir), 'refresh');
+                }
+                else {
+                    redirect(site_url('admin'), 'refresh');
+                }
             }
         }
 
@@ -69,7 +75,13 @@ class Login extends CI_Controller {
                 $this->session->set_userdata('login_type', 'student');
 
                 // Action to do post login success (redirect)
-                redirect(site_url('student'), 'refresh');
+                $redir = $this->input->get('redirect');
+                if (!empty($redir)){
+                    redirect(site_url($redir), 'refresh');
+                }
+                else {
+                    redirect(site_url('student'), 'refresh');
+                }
             }
         }
 
@@ -85,7 +97,13 @@ class Login extends CI_Controller {
                 $this->session->set_userdata('login_type', 'parent');
 
                 // Action to do post login success (redirect)
-                redirect(site_url('parents'), 'refresh');
+                $redir = $this->input->get('redirect');
+                if (!empty($redir)){
+                    redirect(site_url($redir), 'refresh');
+                }
+                else {
+                    redirect(site_url('parents'), 'refresh');
+                }
             }
         }
 

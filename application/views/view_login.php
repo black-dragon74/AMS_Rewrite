@@ -13,7 +13,14 @@
             <h2 class="title">Manipal University, Jaipur</h2>
         </div>
         <div class="login-content">
-            <form method="post" role="form" id="form_login" action="<? echo site_url('login/validate_login')?>">
+            <form method="post" role="form" id="form_login" action="<?php
+                                                                    $redir = $this->input->get('redirect');
+                                                                    if (!empty($redir)){
+                                                                        echo site_url('login/validate_login').'?redirect='.$redir;
+                                                                    }
+                                                                    else {
+                                                                        echo site_url('login/validate_login');
+                                                                    }?>">
                 <div class="form-group">
                     <input type="text" class="input-field" name="email" placeholder="Email or Username" required autocomplete="off">
                 </div>

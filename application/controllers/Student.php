@@ -12,7 +12,7 @@ class Student extends CI_Controller {
         if ($this->session->userdata('student_login') != 1){
             // Only students should access this area
             $this->session->set_flashdata('login_error', "You must login first!");
-            redirect(site_url('login'), 'refresh');
+            redirect(site_url('login'.'?redirect='.uri_string()), 'refresh');
         }
     }
 

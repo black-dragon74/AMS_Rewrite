@@ -7,10 +7,19 @@ defined ('BASEPATH') or die('Direct access prohibitted');
 
 class Admin extends CI_Controller {
 
+    private function adminOrGTFO(){ // Admin or get the fuck out!
+        if ($this->session->userdata('admin_login') != 1){
+            // Only admins should access this area
+            $this->session->set_flashdata('login_error', "You must login first!");
+            redirect(site_url('login'.'?redirect='.uri_string()), 'refresh');
+        }
+    }
+
 
     public function __construct()
     {
         parent::__construct();
+        $this->adminOrGTFO();
     }
 
     public function index(){
