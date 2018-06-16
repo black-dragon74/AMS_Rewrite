@@ -108,6 +108,24 @@ class Student extends CI_Controller {
 
         // If username is not empty, update the username
         if (!empty($username)){
+
+            // Student can't use a reserved username
+            $disallowed_usernames = array(
+                'admin',
+                'administrator',
+                'student',
+                'parent',
+                'teacher',
+                'teachers'
+            );
+
+            foreach ($disallowed_usernames as $barred) {
+                if ($username == $barred){
+                    $this->session->set_flashdata('error', 'Chosen username is disallowed.');
+                    redirect(site_url('student/account_settings'), 'refresh');
+                }
+            }
+
             // Check if it is taken
             $uid_taken = $this->db->get_where('student', array('uid' => $username));
 
