@@ -124,6 +124,16 @@
             return;
         }
 
+        // Allow only albhabets
+        var regex = /^[a-zA-Z ]*$/;
+        if (!regex.test(this_val)) {
+            alert ('Only albhabets allowed');
+            $('#live-search-faculty').val('').focus();
+            $('div#faculty-numbers').empty();
+            $('#live-search-result-number').empty().html('Found 0 matches.').removeClass().addClass('callout callout-danger');
+            return;
+        }
+
         // Ajax to fetch live values
         $.ajax({
             url: '<?php echo site_url("ajax/get_faculty_numbers_where")?>'+'/'+'name'+'/'+this_val,

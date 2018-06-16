@@ -26,8 +26,8 @@ class Ajax extends CI_Controller {
 
         $this->db->like($arg1, $arg2, 'after');
         $this->db->order_by('name', "ASC");
-        $teacher = $this->db->get('student');
-        $bg_counter = 0; $bg_color = '';
+        $teacher = $this->db->get('teacher');
+        $bg_counter = rand(1,3); $bg_color = '';
         $this->session->set_userdata('ajax_num_rows', $teacher->num_rows());
         if ($teacher->num_rows() != 0){
             foreach ($teacher->result() as $row){
@@ -52,10 +52,10 @@ class Ajax extends CI_Controller {
                         <div class="box box-widget widget-user">
                             <div class="widget-user-header '.$bg_color.'">
                                 <h3 class="widget-user-username">'.$row->name.'</h3>
-                                <h5 class="widget-user-desc">Professor</h5>
+                                <h5 class="widget-user-desc">'.$row->designation.'</h5>
                             </div>
                             <div class="widget-user-image">
-                                <img class="img-circle" src="'.$this->crud_model->get_profile_pic("student", $row->student_id).'" alt="User Avatar">
+                                <img class="img-circle" src="'.$this->crud_model->get_profile_pic("teacher", $row->teacher_id).'" alt="User Avatar">
                             </div>
                             <div class="box-footer">
                                 <div class="row">

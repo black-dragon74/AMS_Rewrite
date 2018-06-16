@@ -3,7 +3,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <!-- For colored status bar on Android -->
-<meta name="theme-color" content="#333" />
+<meta name="theme-color" content="#0d1b28" />
 <!-- For favicon -->
 <link rel="shortcut icon" type="image/png" href="<?php echo base_url('assets/img/favicon.ico')?>" />
 
