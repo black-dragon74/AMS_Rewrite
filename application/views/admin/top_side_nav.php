@@ -4,7 +4,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
 ?>
 <header class="main-header">
     <!-- Logo -->
-    <a href="/" class="logo">
+    <a href="<?php echo site_url('admin') ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>MS</span>
         <!-- logo for regular state and mobile devices -->

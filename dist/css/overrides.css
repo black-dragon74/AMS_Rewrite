@@ -49,6 +49,7 @@
 
 .small-box {
 	box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2) !important;
+	overflow-y: hidden;
 }
 
 .custom-file-upload {
@@ -86,10 +87,10 @@ img#profile-img {
 	cursor: pointer;
 }
 
-.small-box {
-	overflow: hidden;
-}
-
 .box .border-bottom {
 	border-bottom: 1px solid #f4f4f4;
+}
+
+.box .datepicker-inline, .box .datepicker-inline .datepicker-days, .box .datepicker-inline > table, .box .datepicker-inline .datepicker-days > table {
+	height: 95%;
 }

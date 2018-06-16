@@ -107,6 +107,28 @@ class Login extends CI_Controller {
             }
         }
 
+        // Check for teacher
+        $row = $this->crud_model->get_login_info('email', 'teacher');
+        if (isset($row->password)){
+            if (password_verify($password, $row->password)){
+                // Login is successful
+                $this->session->set_userdata('teacher_login', '1');
+                $this->session->set_userdata('teacher_id', $row->teacher_id);
+                $this->session->set_userdata('login_user_id', $row->teacher_id);
+                $this->session->set_userdata('name', $row->name);
+                $this->session->set_userdata('login_type', 'teacher');
+
+                // Action to do post login success (redirect)
+                $redir = $this->input->get('redirect');
+                if (!empty($redir)){
+                    redirect(site_url($redir), 'refresh');
+                }
+                else {
+                    redirect(site_url('teacher'), 'refresh');
+                }
+            }
+        }
+
         // If code comes here it means login has failed
         // Redirect to login with the error message
         $this->session->set_flashdata('login_error', "Login failed. Check your credentials");
@@ -226,6 +248,8 @@ class Login extends CI_Controller {
             'student_id',
             'parent_login',
             'parent_id',
+            'teacher_login',
+            'teacher_id',
             'librarian_login',
             'librarian_id',
             'accountant_login',

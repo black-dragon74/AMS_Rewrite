@@ -83,4 +83,9 @@ class crud_model extends CI_Model {
             return $result->row();
         }
     }
+
+    // This function takes table name as input and returns the count as result
+    function get_count_of($table){
+        return $this->db->get($table)->num_rows();
+    }
 }
