@@ -76,6 +76,40 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                     </span> -->
                 </a>
             </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-group"></i> <span>Students</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i>Admit Students</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i>Bulk Admit Students</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i>Student Information</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i>Student Promotions</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>Teachers</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Parents</span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo site_url('admin/manage_notices')?>">
+                    <i class="glyphicon glyphicon-pushpin"></i>
+                    <span>Manage Notices</span>
+                </a>
+            </li>
             <li>
                 <a href="#">
                     <i class="fa fa-bar-chart-o"></i> <span>Academic Status</span>

@@ -4,7 +4,7 @@
 
 <script>
     $(function () {
-        $('ul.sidebar-menu li:nth-child(2)').addClass('active');
+        $('ul.sidebar-menu > li:nth-child(2)').addClass('active');
     })
 </script>
 <!-- Content Wrapper. Contains page content -->

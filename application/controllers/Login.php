@@ -39,6 +39,9 @@ class Login extends CI_Controller {
     // TODO use CRUD for parent, teacher and admin auth
 
     public function validate_login(){
+
+        $hint = '';
+
         $password = $this->input->post('password');
 
         // Check for admin
@@ -61,6 +64,7 @@ class Login extends CI_Controller {
                     redirect(site_url('admin'), 'refresh');
                 }
             }
+            $hint = $row->password_hint;
         }
 
         // Check for student
@@ -83,6 +87,7 @@ class Login extends CI_Controller {
                     redirect(site_url('student'), 'refresh');
                 }
             }
+            $hint = $row->password_hint;
         }
 
         // Check for parent
@@ -105,6 +110,7 @@ class Login extends CI_Controller {
                     redirect(site_url('parents'), 'refresh');
                 }
             }
+            $hint = $row->password_hint;
         }
 
         // Check for teacher
@@ -127,10 +133,14 @@ class Login extends CI_Controller {
                     redirect(site_url('teacher'), 'refresh');
                 }
             }
+            $hint = $row->password_hint;
         }
 
         // If code comes here it means login has failed
         // Redirect to login with the error message
+        if (trim($hint) != ''){
+            $this->session->set_flashdata('hint', $hint);
+        }
         $this->session->set_flashdata('login_error', "Login failed. Check your credentials");
         redirect(site_url('login'), 'refresh');
     }

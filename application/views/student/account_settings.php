@@ -107,21 +107,21 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
                                     <div class="form-group">
                                         <label for="current-password" class="col-sm-2 control-label">Current</label>
 
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-8">
                                             <input type="password" class="form-control" required="required" name="current-password" current-password" placeholder="Current Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="new-password" class="col-sm-2 control-label">New</label>
 
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-8">
                                             <input type="password" class="form-control" required="required" name="new-password" id="new-password" placeholder="New Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="re-password" class="col-sm-2 control-label">Retype</label>
 
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-8">
                                             <input type="password" class="form-control" required="required" name="re-password" id="re-password" placeholder="Retype Password">
                                         </div>
                                     </div>

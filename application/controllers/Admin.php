@@ -84,7 +84,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    function update_profile(){
+    public function update_profile(){
 
         $username = $this->input->post('inputUser');
         $email = $this->input->post('inputEmail');
@@ -137,5 +137,37 @@ class Admin extends CI_Controller {
         // Redirect
         $this->session->set_flashdata('success', "Profile updated successfully!");
         redirect(site_url('admin/account_settings'), 'header');
+    }
+
+    // Function to initiate notice view
+    public function manage_notices(){
+        $data['title'] = 'Manage Notices';
+        $this->load->view('admin/notices', $data);
+    }
+
+    // Function to add notice
+    public function add_notice(){
+        $notice=$this->input->post('notice');
+        $stream=$this->input->post('stream');
+
+        $this->db->insert('notices', array('notice' => $notice, 'stream' => $stream));
+
+        // Set flash data
+        $this->session->set_flashdata('notice_success', 'Notice added successfully!');
+
+        // Refresh
+        redirect(site_url('admin/manage_notices'), 'refresh');
+    }
+
+    // Function to manage notices
+    public function delete_notice($noticeID = ''){
+        // Notice id is to be supplied by the form
+        $this->db->delete('notices', array('notice_id' => $noticeID));
+
+        // Set flash data
+        $this->session->set_flashdata('notice_success', 'Notice trashed successfully!');
+
+        // Refresh
+        redirect(site_url('admin/manage_notices'), 'refresh');
     }
 }

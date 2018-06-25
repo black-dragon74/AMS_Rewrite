@@ -68,5 +68,20 @@
         });
     </script>
 <?php } ?>
+
+<?php if ($this->session->flashdata('hint') != '') { ?>
+    <script type="text/javascript">
+        $.notify({
+            title: "<strong>Password Hint:</strong> ",
+            message: '<?php echo $this->session->flashdata('hint');?>'
+        },{
+            type: 'success',
+            animate: {
+                enter: 'animated bounceInDown',
+                exit: 'animated bounceOutUp'
+            }
+        });
+    </script>
+<?php } ?>
 </body>
 </html>
