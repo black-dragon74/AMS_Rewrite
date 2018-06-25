@@ -58,7 +58,7 @@
                                                 $th = 0;
                                                 if ($qry->num_rows() == 0){
                                                     echo "<tr>
-                                        <th colspan='3'>No Notices found!</th>
+                                        <th colspan='4'>No Notices found!</th>
                                   </tr>";
                                                 }
                                                 else{
@@ -71,7 +71,7 @@
                                                             <td><?php echo $row->notice ?></td>
                                                             <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
                                                             <td>
-                                                                <a href="delete_notice/<?php echo $row->notice_id?>" data-toggle="modal"><span style="font-size: 20px;"><i class="fa fa-trash"></i> </span></a>
+                                                                <a href="#" onclick="confirmDeletionFor('<?php echo site_url('admin/delete_notice/'.$row->notice_id)?>')"><span style="font-size: 20px;"><i class="fa fa-trash"></i> </span></a>
                                                             </td>
                                                         </tr>
                                                     <?php }}
@@ -111,6 +111,24 @@
                 </div>
             </div>
         </div>
+        <!-- Modal to confirm an AMS action -->
+        <div class="modal fade in" id="confirm-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                        <h4 class="modal-title">Confirm</h4>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Are you sure you want to delete this notice?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="confirm-modal-yes"><button type="button" class="btn btn-danger">Yes</button></a>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 <?php if ($this->session->flashdata('notice_success') != '') { ?>
@@ -126,5 +144,13 @@
         });
     </script>
 <?php } ?>
+
+<script type="text/javascript">
+    // Function to show the confirm modal with the delete action
+    function confirmDeletionFor(delete_url) {
+        $('#confirm-modal').modal('show');
+        $('#confirm-modal-yes').attr('href', delete_url);
+    }
+</script>
 <?php include_once 'footer.php' ?>
 <?php include_once 'bottom_scripts.php' ?>

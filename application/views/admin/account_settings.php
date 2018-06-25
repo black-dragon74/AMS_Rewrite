@@ -3,7 +3,7 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
 ?>
     <script>
         $(function () {
-            $('ul.sidebar-menu li:nth-child(6)').addClass('active');
+            $('ul.sidebar-menu li:nth-child(10)').addClass('active');
         })
     </script>
     <!-- Content Wrapper. Contains page content -->
