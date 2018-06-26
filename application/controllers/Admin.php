@@ -159,7 +159,7 @@ class Admin extends CI_Controller {
         redirect(site_url('admin/manage_notices'), 'refresh');
     }
 
-    // Function to manage notices
+    // Function to delete a notice
     public function delete_notice($noticeID = ''){
         // Notice id is to be supplied by the form
         $this->db->delete('notices', array('notice_id' => $noticeID));
@@ -168,6 +168,21 @@ class Admin extends CI_Controller {
         $this->session->set_flashdata('notice_success', 'Notice trashed successfully!');
 
         // Refresh
+        redirect(site_url('admin/manage_notices'), 'refresh');
+    }
+
+    public function edit_notice(){
+        $noticeID = $this->input->post('modal-notice-id');
+        $noticeContent = $this->input->post('modal-notice');
+
+        // Update the notice in the db
+        $this->db->where('notice_id', $noticeID);
+        $this->db->update('notices', array('notice' => $noticeContent));
+
+        // Set success flashdata and tell the user of the same
+        $this->session->set_flashdata('notice_success', 'Notice edited successfully!');
+
+        // Redirect
         redirect(site_url('admin/manage_notices'), 'refresh');
     }
 }

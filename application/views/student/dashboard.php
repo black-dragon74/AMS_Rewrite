@@ -5,6 +5,15 @@
 <script>
     $(function () {
         $('ul.sidebar-menu li:nth-child(2)').addClass('active');
+        $(document).ready(function () {
+            $('#notice-data-table').DataTable({
+                responsive: true,
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 25, 50, 100],
+                // Show recent first
+                "order": [[0, 'desc']]
+            });
+        });
     })
 </script>
   <!-- Content Wrapper. Contains page content -->
@@ -103,14 +112,16 @@
                     <h3 class="box-title text-bold">Notices for <?php echo $studentInfo->stream ?></h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body no-padding text-center">
-                    <table class="table table-bordered table-responsive table-hover">
+                <div class="box-body">
+                    <table class="table table-bordered table-responsive table-hover text-center" id="notice-data-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Notice</th>
+                            <th>Category</th>
+                        </tr>
+                        </thead>
                         <tbody>
-                            <tr>
-                                <th>#</th>
-                                <th>Notice</th>
-                                <th>Category</th>
-                            </tr>
                               <?php
                               $this->db->where('stream', $studentInfo->stream);
                               $this->db->or_where('stream', 'all');

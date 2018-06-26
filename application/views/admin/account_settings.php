@@ -140,6 +140,10 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
             animate: {
                 enter: 'animated bounceInDown',
                 exit: 'animated bounceOutUp'
+            },
+            placement: {
+                from: "top",
+                align: "center"
             }
         });
     </script>
@@ -155,6 +159,10 @@ include_once 'top_scripts.php'; include_once 'top_side_nav.php';
             animate: {
                 enter: 'animated bounceInDown',
                 exit: 'animated bounceOutUp'
+            },
+            placement: {
+                from: "top",
+                align: "center"
             }
         });
     </script>

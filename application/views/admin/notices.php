@@ -2,12 +2,6 @@
 
 <?php include_once 'top_side_nav.php' ?>
 
-    <script>
-        $(function () {
-            $('ul.sidebar-menu li:nth-child(6)').addClass('active');
-        })
-    </script>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,18 +34,20 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="box">
-                                        <div class="box-header" style="text-align: center;">
+                                        <div class="box-header">
                                             <h3 class="box-title">Notices for users</h3>
                                         </div>
-                                        <div class="box-body table-responsive no-padding text-center">
-                                            <table class="table table-bordered table-hover table-striped">
-                                                <tbody>
+                                        <div class="box-body table-responsive">
+                                            <table class="table table-bordered table-hover table-striped text-center" id="notice-data-table">
+                                                <thead>
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Notice</th>
                                                     <th>Stream</th>
                                                     <th>Manage</th>
                                                 </tr>
+                                                </thead>
+                                                <tbody>
                                                 <?php
                                                 $this->db->order_by('notice_id', 'asc');
                                                 $qry = $this->db->get('notices');
@@ -71,7 +67,17 @@
                                                             <td><?php echo $row->notice ?></td>
                                                             <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
                                                             <td>
-                                                                <a href="#" onclick="confirmDeletionFor('<?php echo site_url('admin/delete_notice/'.$row->notice_id)?>')"><span style="font-size: 20px;"><i class="fa fa-trash"></i> </span></a>
+                                                                <a href="#" onclick="showEditModal(
+                                                                    '<?php echo $row->notice_id?>',
+                                                                        '<?php echo $row->notice ?>',
+                                                                        '<?php echo $row->stream?>'
+                                                                        )">
+                                                                    <span class="label label-success margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-pencil"></i> </span>
+                                                                </a>
+                                                                <a href="#" onclick="confirmDeletionFor(
+                                                                    '<?php echo site_url('admin/delete_notice/'.$row->notice_id)?>')">
+                                                                    <span class="label label-danger margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-trash"></i> </span>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                     <?php }}
@@ -93,13 +99,14 @@
                                     <label for="notice" class="control-label">Select Stream</label>
                                     <select class="form-control" name="stream" required>
                                         <option value="">-- SELECT --</option>
+                                        <option value="All">SHOW TO ALL</option>
                                         <?php
-                                            // Get unique streams for the students
+                                        // Get unique streams for the students
                                         $this->db->distinct();
-                                        $this->db->select('stream');
-                                        $result = $this->db->get('student');
+                                        $this->db->select('name');
+                                        $result = $this->db->get('stream');
                                         foreach ($result->result() as $row){
-                                            echo "<option value='$row->stream'>$row->stream</option>";
+                                            echo "<option value='$row->name'>$row->name</option>";
                                         }
                                         ?>
                                     </select>
@@ -129,6 +136,43 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal to edit a notice -->
+        <div class="modal fade in" id="modal-edit-notice">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Notice</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="<?php echo site_url('admin/edit_notice')?>" id="modal-notice-edit-form" method="post">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Notice ID</label>
+                                        <input type="text" class="form-control" name="modal-notice-id" id="modal-notice-id" readonly="true">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Notice</label>
+                                        <textarea rows="5" class="form-control" name="modal-notice" id="modal-notice"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Stream</label>
+                                        <select name="" id="modal-notice-stream" class="form-control" disabled>
+                                            <option value="">B.C.A</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" form="modal-notice-edit-form" class="btn btn-success">Update</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 <?php if ($this->session->flashdata('notice_success') != '') { ?>
@@ -140,6 +184,11 @@
             animate: {
                 enter: 'animated bounceInDown',
                 exit: 'animated bounceOutUp'
+            },
+            delay: 100,
+            placement: {
+                from: "top",
+                align: "center"
             }
         });
     </script>
@@ -151,6 +200,32 @@
         $('#confirm-modal').modal('show');
         $('#confirm-modal-yes').attr('href', delete_url);
     }
+
+    // Function to show the edit notice modal
+    function showEditModal(notice_id, notice, stream){
+        // Set the values based on params
+        $('#modal-notice-id').val(notice_id);
+        $('#modal-notice').val(notice);
+        $('#modal-notice-stream > option').html(stream);
+
+        // Show the modal
+        $('#modal-edit-notice').modal('show');
+    }
+</script>
+<script>
+    $(function () {
+        $('ul.sidebar-menu li:nth-child(6)').addClass('active');
+
+        $(document).ready(function () {
+            $('#notice-data-table').DataTable({
+                responsive: true,
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 25, 50, 100],
+                // Show recent first
+                "order": [[0, 'desc']]
+            });
+        });
+    })
 </script>
 <?php include_once 'footer.php' ?>
 <?php include_once 'bottom_scripts.php' ?>

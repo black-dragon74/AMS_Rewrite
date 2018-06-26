@@ -79,7 +79,8 @@
             animate: {
                 enter: 'animated bounceInDown',
                 exit: 'animated bounceOutUp'
-            }
+            },
+            timer: 5000
         });
     </script>
 <?php } ?>

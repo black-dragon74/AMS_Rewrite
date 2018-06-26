@@ -94,3 +94,7 @@ img#profile-img {
 .box .datepicker-inline, .box .datepicker-inline .datepicker-days, .box .datepicker-inline > table, .box .datepicker-inline .datepicker-days > table {
 	height: 95%;
 }
+
+.form-control[readonly] {
+	cursor: not-allowed;
+}
