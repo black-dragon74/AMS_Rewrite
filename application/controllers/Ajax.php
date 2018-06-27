@@ -97,4 +97,51 @@ class Ajax extends CI_Controller {
     public function ajax_num_rows(){
         echo $this->session->userdata('ajax_num_rows');
     }
+
+    public function dump_stream_edit_modal(){
+        // Get the stream ID
+        $stream_id = $this->input->post('stream_id');
+
+        // Create the form action url
+        $action_url = site_url('admin/edit_stream/').$stream_id;
+
+        // Get the list of available teachers
+        $teacher = $this->db->get('teacher')->result();
+
+        $optns = '';
+
+        foreach ($teacher as $row){
+            $optns .= "<option value='$row->teacher_id'>$row->name</option>";
+        }
+
+        // Get the current stream data based on stream ID
+        $stream_details = $this->db->get_where('stream', array('stream_id' => $stream_id))->row();
+
+        // Time to generate the ajax response for the modal
+        echo '<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Edit Stream</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form action="'.$action_url.'" id="stream-modal-edit" method="post">
+                            <div class="form-group">
+                                <label for="" class="control-label">Stream (Non-Editable)</label>
+                                <input type="text" name="stream-name" class="form-control" placeholder="Stream" value="'.$stream_details->name.'" readonly="true">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Edit Teacher</label>
+                                <select name="stream-teacher" id="" class="select2 form-control" style="width: 100%">
+                                    '.$optns.'
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" form="stream-modal-edit" class="btn btn-success">Update</button>
+                    </div>
+                </div>
+            </div>';
+    }
 }

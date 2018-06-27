@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="notice" class="control-label">Select Stream</label>
-                                    <select class="form-control" name="stream" required>
+                                    <select class="form-control select2" name="stream" style="width: 100%" required>
                                         <option value="">-- SELECT --</option>
                                         <option value="All">SHOW TO ALL</option>
                                         <?php
@@ -214,7 +214,7 @@
 </script>
 <script>
     $(function () {
-        $('ul.sidebar-menu li:nth-child(6)').addClass('active');
+        $('ul.sidebar-menu > li:nth-child(7)').addClass('active');
 
         $(document).ready(function () {
             $('#notice-data-table').DataTable({
@@ -224,6 +224,8 @@
                 // Show recent first
                 "order": [[0, 'desc']]
             });
+
+            $('.select2').select2();
         });
     })
 </script>

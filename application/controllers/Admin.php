@@ -185,4 +185,59 @@ class Admin extends CI_Controller {
         // Redirect
         redirect(site_url('admin/manage_notices'), 'refresh');
     }
+
+    public function manage_streams(){
+        $data['title'] = 'Add Streams';
+        $this->load->view('admin/add_stream', $data);
+    }
+
+    public function delete_stream($streamID){
+        // Delete the data
+        $this->db->delete('stream', array('stream_id' => $streamID));
+
+        // Set success flashdata and tell the user of the same
+        $this->session->set_flashdata('stream_success', 'Stream deleted successfully!');
+
+        // Redirect
+        redirect(site_url('admin/manage_streams'), 'refresh');
+    }
+
+    public function add_stream(){
+        // Get the POST data
+        $stream_name = $this->input->post('stream-name');
+        $stream_teacher = $this->input->post('stream-teacher');
+
+        // Check if the data is already existent in the table
+        $num_rows = $this->db->get_where('stream', array('name' => $stream_name))->num_rows();
+        if ($num_rows > 0) {
+            // Stream already exists and it is an error
+            $this->session->set_flashdata('stream_error', "The stream already exists");
+            redirect(site_url('admin/manage_streams'), 'refresh');
+        }
+        else {
+            // Insert the data into the streams table
+            $this->db->insert('stream', array('name' => $stream_name, 'teacher_id' => $stream_teacher));
+
+            // Success
+            $this->session->set_flashdata('stream_success', "Stream Added Successfully!");
+
+            redirect(site_url('admin/manage_streams'), 'refresh');
+        }
+    }
+
+    public function edit_stream($streamID){
+        // Check if the stream name is existent in the DB
+        $stream_name = $this->input->post('stream-name');
+        $stream_teacher = $this->input->post('stream-teacher');
+
+        // Update the details in the DB
+        $this->db->where('stream_id', $streamID);
+        $this->db->update('stream', array('name' => $stream_name, 'teacher_id' => $stream_teacher));
+
+        // Redirect with success message
+        $this->session->set_flashdata('stream_success', "Stream edited successfully!");
+
+        redirect(site_url('admin/manage_streams'), 'refresh');
+
+    }
 }

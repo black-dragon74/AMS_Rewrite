@@ -112,8 +112,8 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i>Manage Streams</a></li>
+                <ul class="treeview-menu stream-menu">
+                    <li><a href="<?php echo site_url('admin/manage_streams')?>"><i class="fa fa-circle-o"></i>Manage Streams</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i>Manage Sections</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i>Placeholder</a></li>
                 </ul>

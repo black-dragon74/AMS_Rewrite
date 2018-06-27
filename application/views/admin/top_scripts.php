@@ -6,6 +6,8 @@
     <title><?php echo isset($title) ? $title.' | MUJ AMS' : '| MUJ AMS' ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="theme-color" content="#dd4b39">
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="<?php echo base_url('bower_components/select2/dist/css/select2.min.css')?>">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="<?php echo base_url('bower_components/bootstrap/dist/css/bootstrap.min.css')?>">
     <!-- Font Awesome -->
@@ -56,6 +58,9 @@
     <!-- Data Tables -->
     <script src="<?php echo base_url('bower_components/datatables.net/js/jquery.dataTables.min.js')?>"></script>
     <script src="<?php echo base_url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')?>"></script>
+
+    <!-- Select 2 -->
+    <script src="<?php echo base_url('bower_components/select2/dist/js/select2.full.min.js')?>"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini skin-red-light">
 <div class="wrapper">
