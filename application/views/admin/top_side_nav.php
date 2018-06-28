@@ -114,7 +114,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                 </a>
                 <ul class="treeview-menu stream-menu">
                     <li><a href="<?php echo site_url('admin/manage_streams')?>"><i class="fa fa-circle-o"></i>Manage Streams</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i>Manage Sections</a></li>
+                    <li><a href="<?php echo site_url('admin/manage_sections')?>"><i class="fa fa-circle-o"></i>Manage Sections</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i>Placeholder</a></li>
                 </ul>
             </li>
@@ -139,8 +139,8 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-phone"></i> <span>Helpful Numbers</span>
+                <a href="<?php echo site_url('admin/staff_numbers')?>">
+                    <i class="fa fa-phone"></i> <span>Staff Numbers</span>
                     <span class="pull-right-container">
               <small class="label pull-right bg-red"><i class="fa fa-info"></i></small>
             </span>
@@ -167,7 +167,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                 </a>
             </li>
             <li>
-                <a href="#not-added-yet">
+                <a href="#" data-toggle="modal" data-target="#feedback-modal">
                     <i class="fa fa-edit"></i> <span>Feedback</span>
                 </a>
             </li>
@@ -175,3 +175,73 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
     </section>
     <!-- /.sidebar -->
 </aside>
+<div class="modal modal-success fade in" id="feedback-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Feedback</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form id="feedback-form" method="post" autocomplete="off">
+                            <input type="hidden" name="ams_ajax" value="true">
+                            <div class="form-group">
+                                <label for="feedback-name" class="control-label">Name</label>
+                                <input type="text" class="form-control" id="feedback-name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="feedback-email" class="control-label">Email</label>
+                                <input type="email" class="form-control" id="feedback-email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="feedback-feedback" class="control-label">Feedback</label>
+                                <textarea id="feedback-feedback" class="form-control no-resize" rows="5" placeholder="Your detailed feedback" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="feedback-form" class="btn btn-warning" id="send-feedback-btn"><i class="fa fa-paper-plane margin-r-5"></i>Send</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close margin-r-5"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#send-feedback-btn').click(function (e) {
+        e.preventDefault();
+
+        if ($('#feedback-name').val() == '' || $('#feedback-email').val() == '' || $('#feedback-feedback').val() == ''){
+            alert('Fill all the fields in the form!');
+            return;
+        }
+
+        $.ajax({
+            url: '<?php echo site_url('ajax/send_feedback')?>',
+            data: {
+                "ams_ajax": true,
+                "feedback-name": $('#feedback-name').val(),
+                "feedback-email": $('#feedback-email').val(),
+                "feedback-feedback": $('#feedback-feedback').val()
+            },
+            type: "post",
+            success: function (response) {
+                if (response == 'sent'){
+                    alert ('Thanks for your feedback!');
+                    location.reload();
+                }
+                else {
+                    alert ('A Server error occurred!\n'+response);
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert('Server error occurred in sending the mail');
+                location.reload();
+            }
+        });
+    });
+</script>

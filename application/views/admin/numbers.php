@@ -1,22 +1,19 @@
-<?php include_once 'top_scripts.php'; include_once 'top_side_nav.php'; ?>
+<?php include_once 'top_scripts.php' ?>
 
-<script>
-    $(function () {
-        $('ul.sidebar-menu li:nth-child(5)').addClass('active');
-    })
-</script>
+<?php include_once 'top_side_nav.php' ?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Helpful Contacts
+            Staff Numbers
         </h1>
         <ol class="breadcrumb">
-            <li><a href="<?php echo site_url('student') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="<?php echo site_url('admin') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
             <li>Dashboard</li>
-            <li class="active">Helpful Numbers</li>
+            <li class="active">Staff Numbers</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -77,6 +74,12 @@
         </div>
     </section>
 </div>
+<script type="text/javascript">
+    $(function () {
+        // Set sidebar active
+        $('ul.sidebar-menu > li:nth-child(10)').addClass('active');
+    })
+</script>
 <!-- Script to handle AJAX request by stream type -->
 <script>
     $('#get-faculty-numbers').on('click', function (e) {
@@ -165,4 +168,6 @@
         },100);
     });
 </script>
-<?php include_once 'footer.php'; include_once 'bottom_scripts.php';?>
+
+<?php include_once 'footer.php' ?>
+<?php include_once 'bottom_scripts.php' ?>

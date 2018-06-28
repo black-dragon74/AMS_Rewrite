@@ -22,7 +22,7 @@
                                                                         echo site_url('login/validate_login');
                                                                     }?>">
                 <div class="form-group">
-                    <input type="text" class="input-field" name="email" placeholder="Email or Username" required autocomplete="off">
+                    <input type="text" class="input-field" id="email" name="email" placeholder="Email or Username" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <input type="password" class="input-field" name="password" placeholder="Password" required>
@@ -39,6 +39,11 @@
     </div>
     <div class="image-area"></div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#email').focus();
+    });
+</script>
 <!-- If there is an error in flash_data show that here-->
 <?php if ($this->session->flashdata('login_error') != '') { ?>
     <script type="text/javascript">

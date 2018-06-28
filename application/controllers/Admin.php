@@ -240,4 +240,44 @@ class Admin extends CI_Controller {
         redirect(site_url('admin/manage_streams'), 'refresh');
 
     }
+
+    public function manage_sections(){
+        $data['title'] = 'Manage Sections';
+        $this->load->view('admin/add_sections', $data);
+    }
+
+    public function add_section(){
+        $section_name = $this->input->post('add-section-name');
+        $section_teacher = $this->input->post('add-section-teacher');
+        $section_stream = $this->input->post('add-section-stream');
+
+        // Check if section already exists
+        if ($this->db->get_where('section', array('name' => $section_name, 'stream_id' => $section_stream))->num_rows() > 0){
+            $this->session->set_flashdata('section_error', "Section Already Exists!");
+            redirect(site_url('admin/manage_sections'), 'refresh');
+        }
+        else {
+            $this->db->insert('section', array('stream_id' => $section_stream, 'teacher_id' => $section_teacher, 'name' => $section_name));
+            $this->session->set_flashdata('section_success', "Section Added Successfully!");
+            redirect(site_url('admin/manage_sections'), 'refresh');
+        }
+    }
+
+    public function delete_section($sectionID){
+        if ($this->db->delete('section', array('section_id' => $sectionID))) {
+            // Success
+            $this->session->set_flashdata('section_success', 'Section deleted successfully!');
+            redirect(site_url('admin/manage_sections'));
+        }
+        else {
+            // Error
+            $this->session->set_flashdata('section_error', 'Section delete failed!');
+            redirect(site_url('admin/manage_sections'));
+        }
+    }
+
+    public function staff_numbers(){
+        $data['title'] = 'Staff Numbers';
+        $this->load->view('admin/numbers', $data);
+    }
 }

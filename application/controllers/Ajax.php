@@ -144,4 +144,45 @@ class Ajax extends CI_Controller {
                 </div>
             </div>';
     }
+
+    public function section_details($streamID){
+        // Connect to the db with the section ID
+        $result = $this->db->get_where('section', array('stream_id' => $streamID));
+        if ($result->num_rows() == 0){
+            echo "empty!";
+            exit();
+        }
+        else {
+            foreach ($result->result() as $row){
+                $stream_name = $this->db->get_where('stream', array('stream_id' => $row->stream_id))->row()->name;
+                $section = $row->name;
+                $teacher_name = $this->db->get_where('teacher', array('teacher_id' => $row->teacher_id))->row()->name;
+                $delete_url = site_url('admin/delete_section/').$row->section_id;
+                echo "<tr><td>$stream_name</td><td>$section</td><td>$teacher_name</td><td><a href='#' onclick='showConfirmModal(\"$delete_url\")'><i class='fa fa-trash'></i></a></td></tr>";
+            }
+        }
+    }
+
+    public function send_feedback(){
+        $reply = $this->input->post('feedback-email');
+        $name = $this->input->post('feedback-name');
+        $feedback = $this->input->post('feedback-feedback');
+
+        $config['mailtype'] = 'html';
+
+        $this->load->library('email', $config);
+        $this->email->to('nickk.2974@gmail.com');
+        $this->email->from('ams@muj.edu', 'Manipal AMS');
+        $this->email->reply_to($reply, $name);
+        $this->email->subject('AMS Feedback');
+        $this->email->message($feedback);
+
+        // Send email
+        if (!$this->email->send()){
+            echo $this->email->print_debugger();
+        }
+        else {
+            echo "sent";
+        }
+    }
 }
