@@ -67,8 +67,8 @@
                                                         <td><?php echo $stream_name?></td>
                                                         <td><?php echo $teacher_name?></td>
                                                         <td>
-                                                            <a href="#" onclick="showStreamEditModal('<?php echo $stream_id?>')"><i class="fa fa-pencil margin-r-5"></i></a>
-                                                            <a href="#" onclick="showConfirmModal('<?php echo site_url('admin/delete_stream/').$stream_id?>')"><i class="fa fa-trash"></i></a>
+                                                            <a href="#" onclick="showStreamEditModal('<?php echo $stream_id?>')"><span class='label label-success margin-r-5' style='font-size: 18px;'><i class="fa fa-pencil"></i></span></a>
+                                                            <a href="#" onclick="showConfirmModal('<?php echo site_url('admin/delete_stream/').$stream_id?>')"><span class='label label-danger margin-r-5' style='font-size: 18px;'><i class="fa fa-trash"></i></span></a>
                                                         </td>
                                                     </tr>
                                                 <?php

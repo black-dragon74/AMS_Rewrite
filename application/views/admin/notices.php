@@ -215,19 +215,19 @@
 <script>
     $(function () {
         $('ul.sidebar-menu > li:nth-child(7)').addClass('active');
-
-        $(document).ready(function () {
-            $('#notice-data-table').DataTable({
-                responsive: true,
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 25, 50, 100],
-                // Show recent first
-                "order": [[0, 'desc']]
-            });
-
-            $('.select2').select2();
-        });
     })
+
+    $(document).ready(function () {
+        $('#notice-data-table').DataTable({
+            responsive: true,
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 25, 50, 100],
+            // Show recent first
+            "order": [[0, 'desc']]
+        });
+
+        $('.select2').select2();
+    });
 </script>
 <?php include_once 'footer.php' ?>
 <?php include_once 'bottom_scripts.php' ?>

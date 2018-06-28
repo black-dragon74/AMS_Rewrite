@@ -241,6 +241,8 @@ class Admin extends CI_Controller {
 
     }
 
+
+    /* Handle Sections */
     public function manage_sections(){
         $data['title'] = 'Manage Sections';
         $this->load->view('admin/add_sections', $data);
@@ -279,5 +281,127 @@ class Admin extends CI_Controller {
     public function staff_numbers(){
         $data['title'] = 'Staff Numbers';
         $this->load->view('admin/numbers', $data);
+    }
+
+    /* Handle Parents */
+    public function manage_parents(){
+        $data['title'] = 'Manage Parents';
+        $this->load->view('admin/parents', $data);
+    }
+
+    // Function to add parents
+    public function add_parents(){
+        $userID = $this->input->post('parent-uid');
+        $name = $this->input->post('parent-name');
+        $email = $this->input->post('parent-email');
+        $password = password_hash($this->input->post('parent-password'), PASSWORD_BCRYPT);
+        $password_hint = $this->input->post('parent-password-hint');
+        $phone = $this->input->post('parent-phone');
+        $profession = $this->input->post('parent-profession');
+        $address = $this->input->post('parent-address');
+
+        // Check if the parent is existent in the db
+
+        if ($this->db->get_where('parent', array('email' => $email))->num_rows() > 0){
+            // Redirect with error
+            $this->session->set_flashdata('parent_error', 'Email already taken!');
+            redirect(site_url('admin/manage_parents'), 'refresh');
+        }
+        elseif ($this->db->get_where('parent', array('uid' => $userID))->num_rows() > 0){
+            // Redirect with error
+            $this->session->set_flashdata('parent_error', 'User ID already taken!');
+            redirect(site_url('admin/manage_parents'), 'refresh');
+        }
+        else {
+            // Insert the data in the db
+            $result = $this->db->insert('parent', array(
+                'uid' => $userID,
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+                'password_hint' => $password_hint,
+                'phone' => $phone,
+                'address' => $address,
+                'profession' => $profession
+            ));
+
+            if ($result){
+                // Redirect with success
+                $this->session->set_flashdata('parent_success', 'Parent Added Successfully!');
+                redirect(site_url('admin/manage_parents'), 'refresh');
+            }
+            else {
+                // Redirect with error
+                $this->session->set_flashdata('parent_error', 'Unable to add parent. Undefined Error!');
+                redirect(site_url('admin/manage_parents'), 'refresh');
+            }
+        }
+    }
+
+    // Function to edit parents
+    public function edit_parent(){
+        $pID = $this->input->post('parent-id');
+        $userID = $this->input->post('parent-uid');
+        $name = $this->input->post('parent-name');
+        $email = $this->input->post('parent-email');
+        $phone = $this->input->post('parent-phone');
+        $profession = $this->input->post('parent-profession');
+        $address = $this->input->post('parent-address');
+
+        // Check for userID uniqueness
+        $this->db->where('uid', $userID);
+        $result = $this->db->get('parent');
+        // If there is a match it should be of the same user else it is an error
+        if ($result->num_rows() > 0){
+            // Check if it is of same user
+            if ($result->row()->parent_id != $pID){
+                // Redirect with error
+                $this->session->set_flashdata('parent_error', 'User ID already taken!');
+                redirect(site_url('admin/manage_parents'), 'refresh');
+            }
+        }
+
+        // Check for email uniqueness
+        $this->db->where('email', $email);
+        $result = $this->db->get('parent');
+        // If there is a match it should be of the same user else it is an error
+        if ($result->num_rows() > 0){
+            // Check if it is of same user
+            if ($result->row()->parent_id != $pID){
+                // Redirect with error
+                $this->session->set_flashdata('parent_error', 'Email already taken!');
+                redirect(site_url('admin/manage_parents'), 'refresh');
+            }
+        }
+
+        // All checks passed, Insert data in the db
+        $this->db->where('parent_id', $pID);
+        $result = $this->db->update('parent', array(
+            'uid' => $userID,
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address,
+            'profession' => $profession
+        ));
+
+        if ($result){
+            // Redirect with success
+            $this->session->set_flashdata('parent_success', 'Parent Updated Successfully!');
+            redirect(site_url('admin/manage_parents'), 'refresh');
+        }
+        else {
+            // Redirect with error
+            $this->session->set_flashdata('parent_error', 'Unable to edit parent. Undefined Error!');
+            redirect(site_url('admin/manage_parents'), 'refresh');
+        }
+    }
+
+    // Function to delete parent
+    public function delete_parent($parentID){
+        $this->db->delete('parent', array('parent_id' => $parentID));
+        // Redirect with success
+        $this->session->set_flashdata('parent_success', 'Parent Deleted Successfully!');
+        redirect(site_url('admin/manage_parents'), 'refresh');
     }
 }

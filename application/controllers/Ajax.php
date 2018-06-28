@@ -158,7 +158,7 @@ class Ajax extends CI_Controller {
                 $section = $row->name;
                 $teacher_name = $this->db->get_where('teacher', array('teacher_id' => $row->teacher_id))->row()->name;
                 $delete_url = site_url('admin/delete_section/').$row->section_id;
-                echo "<tr><td>$stream_name</td><td>$section</td><td>$teacher_name</td><td><a href='#' onclick='showConfirmModal(\"$delete_url\")'><i class='fa fa-trash'></i></a></td></tr>";
+                echo "<tr><td>$stream_name</td><td>$section</td><td>$teacher_name</td><td><a href='#' onclick='showConfirmModal(\"$delete_url\")'><span class='label label-danger margin-r-5' style='font-size: 18px;'><i class='fa fa-trash'></i></span></a></td></tr>";
             }
         }
     }
@@ -184,5 +184,52 @@ class Ajax extends CI_Controller {
         else {
             echo "sent";
         }
+    }
+
+    public function edit_parent_modal(){
+        $parentID = $this->input->post('parentID');
+        // Connect to the db and fetch the details
+        $parent = $this->db->get_where('parent', array('parent_id' => $parentID))->row();
+        $uid = $parent->uid;
+        $name = $parent->name;
+        $email = $parent->email;
+        $phone = $parent->phone;
+        $address = $parent->address;
+        $profession = $parent->profession;
+
+        // Output the data
+        echo '<div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-center text-red text-bold">Fields marked with an asterisk \'*\' must be unique if being updated.</p>
+                            <form action="'.site_url('admin/edit_parent').'" method="post" autocomplete="off" id="edit-parent-form">
+                                <input type="hidden" name="parent-id" value="'.$parent->parent_id.'" required>
+                                <div class="form-group">
+                                    <label for="parent-uid" class="control-label">User ID*</label>
+                                    <input type="text" name="parent-uid" class="form-control" placeholder="Parent User ID" value="'.$uid.'" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-name" class="control-label">Name</label>
+                                    <input type="text" name="parent-name" class="form-control" placeholder="Parent Name" value="'.$name.'" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-email" class="control-label">Email*</label>
+                                    <input type="email" name="parent-email" class="form-control" placeholder="Parent Email" value="'.$email.'" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-phone" class="control-label">Phone Number</label>
+                                    <input type="text" name="parent-phone" class="form-control" placeholder="Phone Number" value="'.$phone.'" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="parent-profession" class="control-label">Profession</label>
+                                    <input type="text" name="parent-profession" class="form-control" placeholder="Profession" value="'.$profession.'" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="parent-address" class="control-label">Address</label>
+                                    <textarea name="parent-address" rows="5" class="no-resize form-control"required>'.$address.'</textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>';
     }
 }

@@ -99,7 +99,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="<?php echo site_url('admin/manage_parents')?>">
                     <i class="fa fa-user"></i>
                     <span>Parents</span>
                 </a>
