@@ -110,3 +110,7 @@ img#profile-img {
 .text-white {
 	color: #fff;
 }
+
+.clear-both {
+	clear: both;
+}

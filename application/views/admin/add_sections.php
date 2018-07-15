@@ -20,7 +20,7 @@
     <!-- Main content -->
     <section class="content">
         <!-- Button to open modal for add section -->
-        <button type="button" class="btn btn-info pull-right" onclick="showSectionModal()" style="margin-bottom: 10px;"><i class="fa fa-plus-circle margin-r-5"></i>Add New Section</button>
+        <button type="button" class="btn btn-success pull-right" onclick="showSectionModal()" style="margin-bottom: 10px;"><i class="fa fa-plus-circle margin-r-5"></i>Add New Section</button>
         <div style="clear: both;"></div>
         <div class="row">
             <div class="col-sm-6">
@@ -189,10 +189,7 @@
 
     $(document).ready(function () {
         // Init Data Table
-        $('#section-list-table').dataTable({
-            "pageLength": 5,
-            "lengthMenu": [5, 10, 15, 50, 100],
-        });
+        $('#section-list-table').dataTable();
 
         // Set sidebar active
         $('ul.sidebar-menu > li:nth-child(6)').addClass('active');

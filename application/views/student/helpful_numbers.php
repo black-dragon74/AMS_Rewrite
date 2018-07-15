@@ -28,7 +28,7 @@
                         <label>Select Department</label>
                         <div class="row">
                             <div class="col-sm-6 col-xs-6">
-                                <select class="form-control" id="input-select-stream" required>
+                                <select class="form-control select2" id="input-select-stream" required>
                                     <option value="">-- SELECT --</option>
                                     <?php
                                     $this->db->distinct();
@@ -79,6 +79,11 @@
 </div>
 <!-- Script to handle AJAX request by stream type -->
 <script>
+
+    $(function () {
+        $('.select2').select2();
+    });
+
     $('#get-faculty-numbers').on('click', function (e) {
         // Get selected stream from DOM
         const selected_stream = $('#input-select-stream').val();

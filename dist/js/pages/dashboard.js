@@ -54,7 +54,7 @@ $(document).ready(function() {
         }, 600);
     });
 
-    // Chnage preview image on click
+    // Change preview image on click
     $('#profile-image').on('change', function () {
         var input = this;
         var url = $(this).val();
@@ -100,4 +100,30 @@ $(document).ready(function() {
     $('img#profile-img').on('click', function () {
         $('label.custom-file-upload').click();
     })
+
+    // Counts real fast. Recommended for larger values
+    $('.count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 500,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+
+    // Count slowly. Don't use for large values
+    $('.count-slow').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
 });

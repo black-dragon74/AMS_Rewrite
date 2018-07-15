@@ -404,4 +404,25 @@ class Admin extends CI_Controller {
         $this->session->set_flashdata('parent_success', 'Parent Deleted Successfully!');
         redirect(site_url('admin/manage_parents'), 'refresh');
     }
+
+    /* Teachers section starts here */
+    public function manage_teachers(){
+        $data['title'] = 'Manage Teachers';
+        $this->load->view('admin/teachers', $data);
+    }
+
+    public function add_teachers(){
+
+    }
+
+    public function edit_teacher(){
+
+    }
+
+    public function delete_teacher($teacherID){
+        $this->db->delete('teacher', array('teacher_id' => $teacherID));
+        // Redirect with success
+        $this->session->set_flashdata('teacher_success', 'Teacher Deleted Successfully!');
+        redirect(site_url('admin/manage_teachers'), 'refresh');
+    }
 }

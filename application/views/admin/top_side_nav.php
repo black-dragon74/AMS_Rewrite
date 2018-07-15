@@ -93,7 +93,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
             </li>
 
             <li>
-                <a href="#">
+                <a href="<?php echo site_url('admin/manage_teachers')?>">
                     <i class="glyphicon glyphicon-user"></i>
                     <span>Teachers</span>
                 </a>
@@ -179,7 +179,7 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Feedback</h4>
+                <h4 class="modal-title">AMS Feedback</h4>
             </div>
             <div class="modal-body">
                 <div class="row">

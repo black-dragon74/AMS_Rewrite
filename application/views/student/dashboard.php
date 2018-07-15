@@ -40,7 +40,6 @@
           <div class="small-box bg-aqua">
             <div class="inner">
               <h3><?php echo $studentInfo->stream ?></h3>
-
               <p>Stream</p>
             </div>
             <div class="icon">
@@ -54,7 +53,6 @@
           <div class="small-box bg-green">
             <div class="inner">
               <h3><?php echo $studentInfo->student_code ?></h3>
-
               <p>Registration Number</p>
             </div>
             <div class="icon">
@@ -67,7 +65,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>40009022</h3>
+              <h3 class="count">40009022</h3>
 
               <p>Admission Number</p>
             </div>
@@ -81,8 +79,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3><?php echo $studentInfo->student_id ?></h3>
-
+              <h3 class="count-slow"><?php echo $studentInfo->student_id ?></h3>
               <p>Roll Number</p>
             </div>
             <div class="icon">

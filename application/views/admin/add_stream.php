@@ -22,99 +22,58 @@
         <!-- This wil contain the add new stream button -->
         <div class="row">
             <div class="col-xs-12">
-                <!-- Start custom tabs -->
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#stream-list" data-toggle="tab">Stream List</a></li>
-                        <li class=""><a href="#stream-add" data-toggle="tab">Add New Stream</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="stream-list">
-                            <div class="row">
-                                <div class="col-lg-6 col-lg-offset-3 col-xs-12 text-center">
-                                    <div class="callout callout-warning">
-                                        <p><strong>Note: </strong>You can only edit the teacher for a selected stream. To edit the stream name, delete the stream and re-add it.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="box">
-                                        <div class="box-header">
-                                            <h3 class="box-title">List of Streams</h3>
-                                        </div>
-                                        <div class="box-body table-responsive">
-                                            <table class="table table-bordered table-striped table-hover text-center" id="stream-list-table">
-                                                <thead>
-                                                <tr>
-                                                    <th>Stream ID</th>
-                                                    <th>Stream Name</th>
-                                                    <th>Class Teacher</th>
-                                                    <th>Manage</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php
-                                                // Connect to the db and get the stream data
-                                                $streams = $this->db->get('stream')->result();
-                                                foreach ($streams as $row){
-                                                    $teacher = $row->teacher_id;
-                                                    $teacher_name = $this->db->get_where('teacher', array('teacher_id' => $teacher))->row()->name;
-                                                    $stream_id = $row->stream_id;
-                                                    $stream_name = $row->name; ?>
-                                                    <tr>
-                                                        <th><?php echo $stream_id?></th>
-                                                        <td><?php echo $stream_name?></td>
-                                                        <td><?php echo $teacher_name?></td>
-                                                        <td>
-                                                            <a href="#" onclick="showStreamEditModal('<?php echo $stream_id?>')"><span class='label label-success margin-r-5' style='font-size: 18px;'><i class="fa fa-pencil"></i></span></a>
-                                                            <a href="#" onclick="showConfirmModal('<?php echo site_url('admin/delete_stream/').$stream_id?>')"><span class='label label-danger margin-r-5' style='font-size: 18px;'><i class="fa fa-trash"></i></span></a>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                                }
-                                                ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="stream-add">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <form action="<?php echo site_url('admin/add_stream')?>" method="post" id="stream-add-form" class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2">Stream Name</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="stream-name" placeholder="Name of the stream (Unique)" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2">Select Teacher</label>
-                                            <div class="col-sm-8">
-                                                <select name="stream-teacher" id="" class="form-control select2" style="width: 100%" required>
-                                                    <option value="">-- SELECT --</option>
-                                                    <?php
-                                                    // Connect to the teacher db and fetch the details
-                                                    $teacher_data = $this->db->get('teacher')->result();
-                                                    foreach ($teacher_data as $teacher_d){
-                                                        echo "<option value='$teacher_d->teacher_id'>$teacher_d->name</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-3 col-sm-offset-2">
-                                                <input type="submit" class="btn btn-success" value="Add Stream">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Add new stream button -->
+                <button class="btn btn-success pull-right" data-toggle="modal" data-target="#add-stream-modal"><i class="fa fa-plus-circle margin-r-5"></i>Add New Stream</button>
+                <div class="clear-both margin-bottom"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="callout callout-danger">
+                    <p><strong>Note: </strong>You can only edit the teacher for a selected stream. To edit the stream name, delete the stream and re-add it.</p>
+                </div>
+            </div>
+        </div>
+        <!-- stream list -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">List of Streams</h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered table-striped table-hover text-center" id="stream-list-table">
+                            <thead>
+                            <tr>
+                                <th>Stream ID</th>
+                                <th>Stream Name</th>
+                                <th>Class Teacher</th>
+                                <th>Manage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            // Connect to the db and get the stream data
+                            $streams = $this->db->get('stream')->result();
+                            foreach ($streams as $row){
+                                $teacher = $row->teacher_id;
+                                $teacher_name = $this->db->get_where('teacher', array('teacher_id' => $teacher))->row()->name;
+                                $stream_id = $row->stream_id;
+                                $stream_name = $row->name; ?>
+                                <tr>
+                                    <th><?php echo $stream_id?></th>
+                                    <td><?php echo $stream_name?></td>
+                                    <td><?php echo $teacher_name?></td>
+                                    <td>
+                                        <a href="#" onclick="showStreamEditModal('<?php echo $stream_id?>')"><span class='label label-success margin-r-5' style='font-size: 18px;'><i class="fa fa-pencil"></i></span></a>
+                                        <a href="#" onclick="showConfirmModal('<?php echo site_url('admin/delete_stream/').$stream_id?>')"><span class='label label-danger margin-r-5' style='font-size: 18px;'><i class="fa fa-trash"></i></span></a>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -143,6 +102,49 @@
         <div class="modal fade in" id="edit-stream-modal">
             <!-- Filled by AJAX -->
         </div>
+
+        <!-- Modal to add new stream -->
+        <div class="modal fade in" id="add-stream-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close pull-right" data-dismiss="modal">x</span>
+                        <h4 class="modal-title">
+                            Add New Stream
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="<?php echo site_url('admin/add_stream')?>" method="post" id="stream-add-form">
+                                    <div class="form-group">
+                                        <label>Stream Name</label>
+                                        <input type="text" class="form-control" name="stream-name" placeholder="Name of the stream (Unique)" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Select Teacher</label>
+                                        <select name="stream-teacher" id="" class="form-control select2" style="width: 100%" required>
+                                            <option value="">-- SELECT --</option>
+                                            <?php
+                                            // Connect to the teacher db and fetch the details
+                                            $teacher_data = $this->db->get('teacher')->result();
+                                            foreach ($teacher_data as $teacher_d){
+                                                echo "<option value='$teacher_d->teacher_id'>$teacher_d->name</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success" form="stream-add-form" value="Add Stream">
+                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 
@@ -150,8 +152,6 @@
     // Make stream list a data-table
     $(document).ready(function () {
         $('#stream-list-table').dataTable({
-            "pageLength": 5,
-            "lengthMenu": [5, 10, 15, 50, 100],
             "order": [[1, "asc"]]
         });
 

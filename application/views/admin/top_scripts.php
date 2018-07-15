@@ -17,7 +17,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url('dist/css/AdminLTE.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('dist/css/overrides.css')?>">
-    <link rel="stylesheet" href="<?php echo base_url('dist/css/skins/skin-red-light.min.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('dist/css/skins/skin-red.min.css')?>">
     <!-- Morris chart -->
     <link rel="stylesheet" href="<?php echo base_url('bower_components/morris.js/morris.css')?>">
     <!-- jvectormap -->
@@ -62,5 +62,5 @@
     <!-- Select 2 -->
     <script src="<?php echo base_url('bower_components/select2/dist/js/select2.full.min.js')?>"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini skin-red-light">
+<body class="hold-transition sidebar-mini skin-red">
 <div class="wrapper">

@@ -45,7 +45,7 @@
             <div class="col-sm-3">
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3><?php echo $this->crud_model->get_count_of('student') ?></h3>
+                        <h3 class="count-slow"><?php echo $this->crud_model->get_count_of('student') ?></h3>
                         <h4>Students</h4>
                     </div>
                     <div class="icon">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3><?php echo $this->crud_model->get_count_of('teacher') ?></h3>
+                        <h3 class="count-slow"><?php echo $this->crud_model->get_count_of('teacher') ?></h3>
                         <h4>Teachers</h4>
                     </div>
                     <div class="icon">
@@ -63,7 +63,7 @@
                 </div>
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3><?php echo $this->crud_model->get_count_of('parent') ?></h3>
+                        <h3 class="count-slow"><?php echo $this->crud_model->get_count_of('parent') ?></h3>
                         <h4>Parents</h4>
                     </div>
                     <div class="icon">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>1</h3>
+                        <h3 class="count-slow">23542435</h3>
                         <h4>Placeholder</h4>
                     </div>
                     <div class="icon">

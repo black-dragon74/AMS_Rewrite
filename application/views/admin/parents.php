@@ -170,8 +170,6 @@
 
     $(document).ready(function () {
         $('#parent-table').dataTable({
-            "pageLength": 5,
-            "lengthMenu": [5,10,15,50,100],
             // Order alphabetically
             "order": [[1, "asc"]]
         });
