@@ -412,11 +412,98 @@ class Admin extends CI_Controller {
     }
 
     public function add_teachers(){
+        // Input fields to fetch from teacher modal
+        $teacherUID = $this->input->post('teacher-uid');
+        $teacherName = $this->input->post('teacher-name');
+        $teacherStream = $this->input->post('teacher-stream');
+        $teacherDesignation = $this->input->post('teacher-designation');
+        $teacherBirthday = $this->input->post('teacher-birthday');
+        $teacherSex = $this->input->post('teacher-sex');
+        $teacherBlood = $this->input->post('teacher-blood');
+        $teacherEmail = $this->input->post('teacher-email');
+        $teacherPassword = $this->input->post('teacher-password');
+        $teacherPasswordHint = $this->input->post('teacher-password-hint');
+        $teacherAddress = $this->input->post('teacher-address');
+        $teacherPhone = $this->input->post('teacher-phone');
 
+        // Check if the user id is unique
+        if ($this->db->get_where('teacher', array('uid' => $teacherUID))->num_rows() > 0){
+            // Error, user id should be unique
+            $this->crud_model->redirect_with_msg('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
+        }
+        elseif ($this->db->get_where('teacher', array('email' => $teacherEmail))->num_rows() > 0) {
+            // Error, email should be unique
+            $this->crud_model->redirect_with_msg('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
+        }
+        else {
+            // Valid entry, insert into db
+            $this->db->insert('teacher', array(
+                'uid' => $teacherUID,
+                'name' => $teacherName,
+                'email' => $teacherEmail,
+                'password' => password_hash($teacherPassword, PASSWORD_BCRYPT),
+                'hint' => $teacherPasswordHint,
+                'designation' => $teacherDesignation,
+                'blood_group' => $teacherBlood,
+                'phone' => $teacherPhone,
+                'address' => $teacherAddress,
+                'sex' => $teacherSex,
+                'stream' => $teacherStream,
+                'birthday' => $teacherBirthday
+            ));
+
+            // Redirect with success
+            $this->crud_model->redirect_with_msg('teacher_success', 'Teacher Added Successfully!', site_url('admin/manage_teachers'));
+        }
     }
 
     public function edit_teacher(){
+        // Input fields to fetch
+        $teacherID = $this->input->post('teacher-id');
+        $teacherUID = $this->input->post('teacher-uid');
+        $teacherName = $this->input->post('teacher-name');
+        $teacherStream = $this->input->post('teacher-stream');
+        $teacherDesignation = $this->input->post('teacher-designation');
+        $teacherEmail = $this->input->post('teacher-email');
+        $teacherAddress = $this->input->post('teacher-address');
+        $teacherPhone = $this->input->post('teacher-phone');
 
+        // Store the details of specific teacher as a row array
+        $teacherDetails = $this->db->get_where('teacher', array('teacher_id' => $teacherID))->row();
+
+        // Check if user name is already taken by another user
+        if ($this->db->get_where('teacher', array('uid' => $teacherUID))->row()->teacher_id != $teacherDetails->teacher_id){
+            // Galat ho gya na bhai
+            $this->crud_model->redirect_with_msg('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
+        }
+        // Same check for email
+        elseif ($this->db->get_where('teacher', array('email' => $teacherEmail))->row()->teacher_id != $teacherDetails->teacher_id){
+            // Galat ho gya na bhai
+            $this->crud_model->redirect_with_msg('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
+        }
+        else {
+            // Time to update the details
+            $insertData = array(
+                'uid' => $teacherUID,
+                'name' => $teacherName,
+                'designation' => $teacherDesignation,
+                'email' => $teacherEmail,
+                'address' => $teacherAddress,
+                'phone' => $teacherPhone
+            );
+
+            // If stream is to be updated, add it to the array
+            if ($teacherStream != ''){
+                $insertData['stream'] = $teacherStream;
+            }
+
+            // Time to update the details
+            $this->db->where('teacher_id', $teacherID);
+            $this->db->update('teacher', $insertData);
+
+            // Redirect with success
+            $this->crud_model->redirect_with_msg('teacher_success', 'Details Updated Successfully!', site_url('admin/manage_teachers'));
+        }
     }
 
     public function delete_teacher($teacherID){
@@ -424,5 +511,38 @@ class Admin extends CI_Controller {
         // Redirect with success
         $this->session->set_flashdata('teacher_success', 'Teacher Deleted Successfully!');
         redirect(site_url('admin/manage_teachers'), 'refresh');
+    }
+
+    public function reset_access(){
+        $role = $this->input->post('access-role');
+        $userID = $this->input->post('access-user');
+
+        if ($role == '' || $userID == ''){
+            $this->crud_model->redirect_with_msg('admin_error', 'Direct access not allowed', site_url('admin'));
+        }
+        else {
+            // Reset the user
+            $defaultPassword = $this->crud_model->get_config('default_password');
+            $password = password_hash($defaultPassword, PASSWORD_BCRYPT);
+            $this->db->where('uid', $userID);
+            $this->db->update($role, array('password' => $password));
+            $this->crud_model->redirect_with_msg('admin_success', 'Account reset to default password as per config.', site_url('admin'));
+        }
+    }
+
+    public function update_default_password() {
+        $defaultPass = $this->input->post('default-password');
+
+        if  ($defaultPass == ''){
+            $this->crud_model->redirect_with_msg('admin_error', 'Direct Access not allowed', site_url('admin'));
+        }
+        else {
+            if ($this->crud_model->set_config('default_password', $defaultPass)) {
+                $this->crud_model->redirect_with_msg('admin_success', 'Default password updated!', site_url('admin'));
+            }
+            else {
+                $this->crud_model->redirect_with_msg('admin_error', 'Undefined error!!', site_url('admin'));
+            }
+        }
     }
 }

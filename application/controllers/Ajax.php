@@ -242,40 +242,72 @@ class Ajax extends CI_Controller {
         $email = $teacher->email;
         $phone = $teacher->phone;
         $address = $teacher->address;
+        $designation = $teacher->designation;
+
+        $list = $this->db->get('stream')->result();
+
+        $streams = '';
+        foreach ($list as $sname){
+            $streams .= '<option value="'.$sname->name.'">'.$sname->name.'</option>';
+        }
 
         // Output the data
         echo '<div class="row">
                         <div class="col-xs-12">
                             <p class="text-center text-red text-bold">Fields marked with an asterisk \'*\' must be unique if being updated.</p>
-                            <form action="'.site_url('admin/edit_parent').'" method="post" autocomplete="off" id="edit-parent-form">
-                                <input type="hidden" name="parent-id" value="'.$teacher->teacher_id.'" required>
+                            <form action="'.site_url('admin/edit_teacher').'" method="post" autocomplete="off" id="edit-teacher-form">
+                            <input type="hidden" name="teacher-id" value="'.$teacherID.'" required>
                                 <div class="form-group">
-                                    <label for="parent-uid" class="control-label">User ID*</label>
-                                    <input type="text" name="parent-uid" class="form-control" placeholder="Parent User ID" value="'.$uid.'" required>
+                                    <label for="teacher-uid" class="control-label">User ID*</label>
+                                    <input type="text" name="teacher-uid" class="form-control" placeholder="Teacher User ID" value="'.$uid.'" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="parent-name" class="control-label">Name</label>
-                                    <input type="text" name="parent-name" class="form-control" placeholder="Parent Name" value="'.$name.'" required>
+                                    <label for="teacher-name" class="control-label">Name</label>
+                                    <input type="text" name="teacher-name" class="form-control" placeholder="Teacher Name" value="'.$name.'" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="parent-email" class="control-label">Email*</label>
-                                    <input type="email" name="parent-email" class="form-control" placeholder="Parent Email" value="'.$email.'" required>
+                                    <label for="teacher-stream" class="control-label">Stream</label>
+                                    <select name="teacher-stream" class="form-control select2">
+                                        <option value="">-- SELECT --</option>
+                                        '.$streams.'
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="parent-phone" class="control-label">Phone Number</label>
-                                    <input type="text" name="parent-phone" class="form-control" placeholder="Phone Number" value="'.$phone.'" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="parent-profession" class="control-label">Profession</label>
-                                    <input type="text" name="parent-profession" class="form-control" placeholder="Profession" value="'.$address.'" required>
+                                    <label for="teacher-designation" class="control-label">Designation</label>
+                                    <input type="text" name="teacher-designation" class="form-control" placeholder="Teacher Designation" value="'.$designation.'" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="parent-address" class="control-label">Address</label>
-                                    <textarea name="parent-address" rows="5" class="no-resize form-control"required>'.$address.'</textarea>
+                                    <label for="teacher-email" class="control-label">Email*</label>
+                                    <input type="email" name="teacher-email" class="form-control" placeholder="Teacher Email" value="'.$email.'" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-address" class="control-label">Address</label>
+                                    <textarea name="teacher-address" rows="5" class="no-resize form-control" required>'.$address.'</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-phone" class="control-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <strong>+91</strong>
+                                        </div>
+                                        <input type="text" pattern="\d*" name="teacher-phone" class="form-control" placeholder="Phone Number" maxlength="10" minlength="10" value="'.$phone.'" required>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>';
+    }
+
+    public function get_users(){
+        $userType = $this->input->post('userType');
+        $user = '<option value="">-- SELECT --</option>';
+
+        $users = $this->db->get($userType)->result();
+
+        foreach ($users as $t){
+            $user .= '<option value="'.$t->uid.'">'.$t->uid.'</option>';
+        }
+
+        echo $user;
     }
 }

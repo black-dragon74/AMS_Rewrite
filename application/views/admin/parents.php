@@ -76,7 +76,7 @@
                 <span class="close pull-right" data-dismiss="modal">x</span>
                 <h4 class="modal-title">Add New Parent</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body modal-body-scroll">
                 <div class="row">
                     <div class="col-xs-12">
                         <p class="text-center text-red text-bold">Fields marked with an asterisk '*' must be unique.</p>
@@ -103,7 +103,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="parent-phone" class="control-label">Phone Number</label>
-                                <input type="text" name="parent-phone" class="form-control" placeholder="Phone Number" required>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <strong>+91</strong>
+                                    </div>
+                                    <input type="text" pattern="\d*" name="parent-phone" class="form-control" placeholder="Phone Number" maxlength="10" minlength="10" required>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -119,7 +124,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" type="submit" form="add-parent-form"><i class="fa fa-plus-circle margin-r-5"></i>Add Parent</button>
+                <button class="btn btn-success" type="submit" form="add-parent-form"><i class="fa fa-check margin-r-5"></i>Add Parent</button>
                 <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-close margin-r-5"></i>Close</button>
             </div>
         </div>
@@ -133,7 +138,7 @@
                     <span class="close pull-right" data-dismiss="modal">x</span>
                     <h4 class="modal-title">Edit Parent</h4>
                 </div>
-                <div class="modal-body" id="edit-modal-body">
+                <div class="modal-body modal-body-scroll" id="edit-modal-body">
                     <!-- Will be filled using ajax -->
                 </div>
                 <div class="modal-footer">

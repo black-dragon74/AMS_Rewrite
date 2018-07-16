@@ -80,22 +80,64 @@
                     <span class="close pull-right" data-dismiss="modal">x</span>
                     <h4 class="modal-title">Add New Teacher</h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body modal-body-scroll">
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="text-center text-red text-bold">Fields marked with an asterisk '*' must be unique.</p>
                             <form action="<?php echo site_url('admin/add_teachers')?>" method="post" autocomplete="off" id="add-teacher-form">
                                 <div class="form-group">
                                     <label for="teacher-uid" class="control-label">User ID*</label>
-                                    <input type="text" name="teacher-uid" class="form-control" placeholder="teacher User ID" required>
+                                    <input type="text" name="teacher-uid" class="form-control" placeholder="Teacher User ID" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="teacher-name" class="control-label">Name</label>
-                                    <input type="text" name="teacher-name" class="form-control" placeholder="teacher Name" required>
+                                    <input type="text" name="teacher-name" class="form-control" placeholder="Teacher Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-stream" class="control-label">Stream (optional)</label>
+                                    <select name="teacher-stream" class="form-control select2">
+                                        <option value="">-- SELECT --</option>
+                                        <!-- Filled by PHP -->
+                                        <?php
+                                        $streams = $this->db->get('stream');
+                                        foreach ($streams->result() as $stream){
+                                            echo '<option value="'.$stream->name.'">'.$stream->name.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-designation" class="control-label">Designation</label>
+                                    <input type="text" name="teacher-designation" class="form-control" placeholder="Teacher Designation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-birthday" class="control-label">Birthday</label>
+                                    <input type="text" name="teacher-birthday" class="form-control datepicker" placeholder="Birthday(dd/mm/yyyy)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-sex" class="control-label">Sex</label>
+                                    <select name="teacher-sex" class="form-control" required>
+                                        <option value="">-- SELECT --</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-blood" class="control-label">Blood Group</label>
+                                    <select name="teacher-blood" class="form-control" required>
+                                        <option value="">-- SELECT --</option>
+                                        <option value="A +ve">A +ve</option>
+                                        <option value="A -ve">A -ve</option>
+                                        <option value="B -ve">B +ve</option>
+                                        <option value="B -ve">B -ve</option>
+                                        <option value="O -ve">O +ve</option>
+                                        <option value="0 -ve">O -ve</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="teacher-email" class="control-label">Email*</label>
-                                    <input type="email" name="teacher-email" class="form-control" placeholder="teacher Email" required>
+                                    <input type="email" name="teacher-email" class="form-control" placeholder="Teacher Email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="teacher-password" class="control-label">Password</label>
@@ -106,24 +148,24 @@
                                     <input type="text" name="teacher-password-hint" class="form-control" placeholder="Password Hint" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="teacher-phone" class="control-label">Phone Number</label>
-                                    <input type="text" name="teacher-phone" class="form-control" placeholder="Phone Number" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="teacher-profession" class="control-label">Profession</label>
-                                    <input type="text" name="teacher-profession" class="form-control" placeholder="Profession" required>
-                                </div>
-                                <div class="form-group">
                                     <label for="teacher-address" class="control-label">Address</label>
                                     <textarea name="teacher-address" rows="5" class="no-resize form-control" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="teacher-phone" class="control-label">Phone Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <strong>+91</strong>
+                                        </div>
+                                        <input type="text" pattern="\d*" name="teacher-phone" class="form-control" placeholder="Phone Number" maxlength="10" minlength="10" required>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" type="submit" form="add-teacher-form"><i class="fa fa-plus-circle margin-r-5"></i>Add Teacher</button>
+                    <button class="btn btn-success" type="submit" form="add-teacher-form"><i class="fa fa-check margin-r-5"></i>Add Teacher</button>
                     <button class="btn btn-danger" type="button" data-dismiss="modal"><i class="fa fa-close margin-r-5"></i>Close</button>
                 </div>
             </div>
@@ -137,7 +179,7 @@
                     <span class="close pull-right" data-dismiss="modal">x</span>
                     <h4 class="modal-title">Edit teacher</h4>
                 </div>
-                <div class="modal-body" id="edit-modal-body">
+                <div class="modal-body modal-body-scroll" id="edit-modal-body">
                     <!-- Will be filled using ajax -->
                 </div>
                 <div class="modal-footer">
@@ -177,6 +219,15 @@
                 // Order alphabetically
                 "order": [[1, "asc"]]
             });
+
+            $('.select2').select2();
+
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                endDate: '<?php echo date('d-m-Y')?>',
+                startView: 2
+            });
         });
 
         function openConfirmModal(delURL){
@@ -203,6 +254,10 @@
 
             // Display the modal
             $('#edit-teacher-modal').modal('show');
+
+            setTimeout(function () {
+                $('.select2').select2();
+            }, 300);
         }
     </script>
 
@@ -241,6 +296,5 @@
         });
     </script>
 <?php } ?>
-
 <?php include_once 'footer.php' ?>
 <?php include_once 'bottom_scripts.php' ?>

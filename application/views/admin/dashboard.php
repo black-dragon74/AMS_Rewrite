@@ -6,6 +6,31 @@
     $(function () {
         $('ul.sidebar-menu > li:nth-child(2)').addClass('active');
     })
+
+    function updateUserList() {
+        // Get current value
+        userType = $('#access-role').val();
+
+
+        if (userType != ''){
+            // Send ajax request and dump the user list
+            $.ajax({
+                url: '<?php echo site_url('ajax/get_users') ?>',
+                data: {
+                    'ams_ajax': true,
+                    'userType': userType
+                },
+                type: "post",
+                success: function (response) {
+                    $('#access-user-list').html(response);
+                    $('.select2').select2();
+                },
+                error: function () {
+                    alert ('Server error occurred');
+                }
+            });
+        }
+    }
 </script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -81,7 +106,97 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Reset Account Credentials
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <form action="<?php echo site_url('admin/reset_access')?>" method="post" id="reset-access-form">
+                            <div class="form-group">
+                                <label for="access-role" class="control-label">Select Access Level</label>
+                                <select name="access-role" id="access-role" class="form-control" onchange="updateUserList();" required>
+                                    <option value="">-- SELECT --</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="student">Student</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="parent">Parent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="access-user" class="control-label">Select User ID</label>
+                                <select name="access-user" class="form-control select2" id="access-user-list" required>
+                                    <!-- Will be filled by AJAX -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-danger" value="RESET CREDENTIALS">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            On The Go Settings
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <form action="<?php echo site_url('admin/update_default_password')?>" method="post">
+                            <label>Default reset password</label>
+                            <div class="input-group">
+                                <input type="password" name="default-password" class="form-control" placeholder="Default Password to reset to" required>
+                                <span class="input-group-btn">
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
+<?php if ($this->session->flashdata('admin_success') != '') { ?>
+    <script type="text/javascript">
+        $.notify({
+            message: '<?php echo $this->session->flashdata('admin_success');?>'
+        },{
+            type: 'success',
+            animate: {
+                enter: 'animated bounceInDown',
+                exit: 'animated bounceOutUp'
+            },
+            delay: 100,
+            placement: {
+                from: "top",
+                align: "center"
+            }
+        });
+    </script>
+<?php } ?>
+<?php if ($this->session->flashdata('admin_error') != '') { ?>
+    <script type="text/javascript">
+        $.notify({
+            message: '<?php echo $this->session->flashdata('admin_error');?>'
+        },{
+            type: 'error',
+            animate: {
+                enter: 'animated bounceInDown',
+                exit: 'animated bounceOutUp'
+            },
+            delay: 100,
+            placement: {
+                from: "top",
+                align: "center"
+            }
+        });
+    </script>
+<?php } ?>
 <?php include_once 'footer.php' ?>
 <?php include_once 'bottom_scripts.php' ?>

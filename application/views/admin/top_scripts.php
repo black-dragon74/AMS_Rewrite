@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="<?php echo base_url('bower_components/font-awesome/css/font-awesome.min.css')?>">
     <!-- Ionicons -->
     <link rel="stylesheet" href="<?php echo base_url('bower_components/Ionicons/css/ionicons.min.css') ?>">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="<?php echo base_url('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')?>">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url('dist/css/AdminLTE.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('dist/css/overrides.css')?>">
@@ -61,6 +63,9 @@
 
     <!-- Select 2 -->
     <script src="<?php echo base_url('bower_components/select2/dist/js/select2.full.min.js')?>"></script>
+
+    <!-- bootstrap datepicker -->
+    <script src="<?php echo base_url('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') ?>"></script>
 </head>
 <body class="hold-transition sidebar-mini skin-red">
 <div class="wrapper">

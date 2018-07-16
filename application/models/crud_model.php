@@ -88,4 +88,30 @@ class crud_model extends CI_Model {
     function get_count_of($table){
         return $this->db->get($table)->num_rows();
     }
+
+    // Function to redirect with success
+
+    /**
+     * Redirects to a specific page by setting a flash data along with a flash message.
+     * @param $flashData string Key of flash data to be set
+     * @param $flashMsg string Flash message that will be displayed to the user
+     * @param $redirectURL string The site url to redirect to
+     * @return void
+     */
+    function redirect_with_msg($flashData, $flashMsg, $redirectURL) {
+        $this->session->set_flashdata($flashData, $flashMsg);
+        // Redirect
+        redirect($redirectURL);
+    }
+
+    // Sets the config value of a config_key into the database
+    function set_config($configKey, $configValue){
+        $this->db->where('config_key', $configKey);
+        return $this->db->update('config', array('config_value' => $configValue));
+    }
+
+    // Returns the config value of a config_key from the database
+    function get_config($configKey){
+        return $this->db->get_where('config', array('config_key' => $configKey))->row()->config_value;
+    }
 }

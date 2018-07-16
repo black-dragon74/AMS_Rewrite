@@ -46,35 +46,29 @@
                                     $this->db->order_by('notice_id', 'asc');
                                     $qry = $this->db->get('notices');
                                     $th = 0;
-                                    if ($qry->num_rows() == 0){
-                                        echo "<tr>
-                                        <th colspan='4'>No Notices found!</th>
-                                  </tr>";
-                                    }
-                                    else{
-                                        foreach ($qry->result() as $row){
-                                            // Incerement row count
-                                            $th++;
-                                            ?>
-                                            <tr>
-                                                <th><?php echo $th ?></th>
-                                                <td><?php echo $row->notice ?></td>
-                                                <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
-                                                <td>
-                                                    <a href="#" onclick="showEditModal(
-                                                            '<?php echo $row->notice_id?>',
-                                                            '<?php echo $row->notice ?>',
-                                                            '<?php echo $row->stream?>'
-                                                            )">
-                                                        <span class="label label-success margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-pencil"></i> </span>
-                                                    </a>
-                                                    <a href="#" onclick="confirmDeletionFor(
-                                                            '<?php echo site_url('admin/delete_notice/'.$row->notice_id)?>')">
-                                                        <span class="label label-danger margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-trash"></i> </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        <?php }}
+                                    foreach ($qry->result() as $row){
+                                        // Incerement row count
+                                        $th++;
+                                        ?>
+                                        <tr>
+                                            <th><?php echo $th ?></th>
+                                            <td><?php echo $row->notice ?></td>
+                                            <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
+                                            <td>
+                                                <a href="#" onclick="showEditModal(
+                                                        '<?php echo $row->notice_id?>',
+                                                        '<?php echo $row->notice ?>',
+                                                        '<?php echo $row->stream?>'
+                                                        )">
+                                                    <span class="label label-success margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-pencil"></i> </span>
+                                                </a>
+                                                <a href="#" onclick="confirmDeletionFor(
+                                                        '<?php echo site_url('admin/delete_notice/'.$row->notice_id)?>')">
+                                                    <span class="label label-danger margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-trash"></i> </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php }
                                     ?>
                                     </tbody>
                                 </table>
@@ -158,7 +152,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="notice" class="control-label">Select Stream</label>
-                                        <select class="form-control select2" name="stream" style="width: 100%" required>
+                                        <select class="form-control select2" name="stream" required>
                                             <option value="">-- SELECT --</option>
                                             <option value="All">SHOW TO ALL</option>
                                             <?php
