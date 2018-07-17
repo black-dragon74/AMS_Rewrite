@@ -5,6 +5,8 @@
 <script>
     $(function () {
         $('ul.sidebar-menu > li:nth-child(2)').addClass('active');
+
+        $('.select2').select2();
     })
 
     function updateUserList() {
@@ -23,12 +25,14 @@
                 type: "post",
                 success: function (response) {
                     $('#access-user-list').html(response);
-                    $('.select2').select2();
                 },
                 error: function () {
                     alert ('Server error occurred');
                 }
             });
+        }
+        else {
+            $('#access-user-list').html('<option>-- SELECT USER TYPE FIRST --</option>');
         }
     }
 
@@ -157,6 +161,7 @@
                                 <label for="access-user" class="control-label">Select User ID</label>
                                 <select name="access-user" class="form-control select2" id="access-user-list" required>
                                     <!-- Will be filled by AJAX -->
+                                    <option value="">-- SELECT USER TYPE FIRST --</option>
                                 </select>
                             </div>
                             <div class="form-group">

@@ -562,4 +562,9 @@ class Admin extends CI_Controller {
             }
         }
     }
+
+    public function admit_student(){
+        $data['title'] = 'Admit Student';
+        $this->load->view('admin/admit_student', $data);
+    }
 }
