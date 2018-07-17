@@ -23,6 +23,13 @@ class Teacher extends CI_Controller {
     }
 
     public function index(){
+        // Parent should never be able to use forceLogin parameter
+        if ($this->crud_model->get_config('site_offline') == 'yes'){
+            $data['title'] = 'Maintenance';
+            $this->load->view('maintenance', $data);
+            return;
+        }
+
         print_r($this->session->userdata());
         if ($this->session->userdata('teacher_login') != 1){
             // Only parents should access this area

@@ -24,6 +24,13 @@ class Student extends CI_Controller {
     }
 
     public function index(){
+        // Student should never be able to use forceLogin parameter
+        if ($this->crud_model->get_config('site_offline') == 'yes'){
+            $data['title'] = 'Maintenance';
+            $this->load->view('maintenance', $data);
+            return;
+        }
+
         $data['usertype'] = $this->session->userdata('login_type');
         $data['title'] = 'Student Dashboard';
         $this->load->view('student/dashboard', $data);

@@ -31,6 +31,21 @@
             });
         }
     }
+
+    function togglePassword(){
+        const elem = $('#default-password');
+
+        if (elem.prop('type') === 'text'){
+            elem.prop('type', 'password');
+        }
+        else {
+            elem.prop('type', 'text');
+        }
+    }
+
+    $(document).ready(function () {
+        $('#site-offline-select').val('<?php echo $this->crud_model->get_config('site_offline')?>');
+    });
 </script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -48,6 +63,18 @@
 
     <!-- Main content -->
     <section class="content">
+        <?php
+        // If site is offline display a message to the admin
+        if ($this->crud_model->get_config('site_offline') == 'yes'){ ?>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="callout callout-danger text-bold" style="text-transform: uppercase;">
+                    Please Note: Site is offline for parents and students.
+                </div>
+            </div>
+        </div>
+        <?php }
+        ?>
         <div class="row">
             <div class="col-sm-9">
                 <div class="row" style="margin-bottom: 10px">
@@ -147,15 +174,40 @@
                         </h3>
                     </div>
                     <div class="box-body">
-                        <form action="<?php echo site_url('admin/update_default_password')?>" method="post">
-                            <label>Default reset password</label>
-                            <div class="input-group">
-                                <input type="password" name="default-password" class="form-control" placeholder="Default Password to reset to" required>
-                                <span class="input-group-btn">
-                                <button type="submit" class="btn btn-success">Update</button>
-                            </span>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="<?php echo site_url('admin/update_default_password')?>" method="post">
+                                    <label>Default reset password</label>
+                                    <div class="input-group">
+                                        <input type="password" id="default-password" name="default-password" class="form-control" placeholder="Default Password to reset to" value="<?php echo $this->crud_model->get_config('default_password')?>" required>
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-success btn-flat">Update</button>
+                                        </span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label for="show-cb">
+                                            <input type="checkbox" id="show-cb" onclick="togglePassword()"> Show Password
+                                        </label>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="<?php echo site_url('admin/update_site_status')?>" method="post">
+                                    <label>Site Offline?</label>
+                                    <div class="input-group">
+                                        <select name="site-offline-select" id="site-offline-select" class="form-control">
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-danger btn-flat">Update</button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

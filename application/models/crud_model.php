@@ -98,7 +98,7 @@ class crud_model extends CI_Model {
      * @param $redirectURL string The site url to redirect to
      * @return void
      */
-    function redirect_with_msg($flashData, $flashMsg, $redirectURL) {
+    function redirect($flashData, $flashMsg, $redirectURL) {
         $this->session->set_flashdata($flashData, $flashMsg);
         // Redirect
         redirect($redirectURL);

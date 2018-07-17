@@ -429,11 +429,11 @@ class Admin extends CI_Controller {
         // Check if the user id is unique
         if ($this->db->get_where('teacher', array('uid' => $teacherUID))->num_rows() > 0){
             // Error, user id should be unique
-            $this->crud_model->redirect_with_msg('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
         }
         elseif ($this->db->get_where('teacher', array('email' => $teacherEmail))->num_rows() > 0) {
             // Error, email should be unique
-            $this->crud_model->redirect_with_msg('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
         }
         else {
             // Valid entry, insert into db
@@ -453,7 +453,7 @@ class Admin extends CI_Controller {
             ));
 
             // Redirect with success
-            $this->crud_model->redirect_with_msg('teacher_success', 'Teacher Added Successfully!', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_success', 'Teacher Added Successfully!', site_url('admin/manage_teachers'));
         }
     }
 
@@ -474,12 +474,12 @@ class Admin extends CI_Controller {
         // Check if user name is already taken by another user
         if ($this->db->get_where('teacher', array('uid' => $teacherUID))->row()->teacher_id != $teacherDetails->teacher_id){
             // Galat ho gya na bhai
-            $this->crud_model->redirect_with_msg('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_error', 'User ID is already taken', site_url('admin/manage_teachers'));
         }
         // Same check for email
         elseif ($this->db->get_where('teacher', array('email' => $teacherEmail))->row()->teacher_id != $teacherDetails->teacher_id){
             // Galat ho gya na bhai
-            $this->crud_model->redirect_with_msg('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_error', 'Email is already taken', site_url('admin/manage_teachers'));
         }
         else {
             // Time to update the details
@@ -502,7 +502,7 @@ class Admin extends CI_Controller {
             $this->db->update('teacher', $insertData);
 
             // Redirect with success
-            $this->crud_model->redirect_with_msg('teacher_success', 'Details Updated Successfully!', site_url('admin/manage_teachers'));
+            $this->crud_model->redirect('teacher_success', 'Details Updated Successfully!', site_url('admin/manage_teachers'));
         }
     }
 
@@ -518,7 +518,7 @@ class Admin extends CI_Controller {
         $userID = $this->input->post('access-user');
 
         if ($role == '' || $userID == ''){
-            $this->crud_model->redirect_with_msg('admin_error', 'Direct access not allowed', site_url('admin'));
+            $this->crud_model->redirect('admin_error', 'Direct access not allowed', site_url('admin'));
         }
         else {
             // Reset the user
@@ -526,7 +526,7 @@ class Admin extends CI_Controller {
             $password = password_hash($defaultPassword, PASSWORD_BCRYPT);
             $this->db->where('uid', $userID);
             $this->db->update($role, array('password' => $password));
-            $this->crud_model->redirect_with_msg('admin_success', 'Account reset to default password as per config.', site_url('admin'));
+            $this->crud_model->redirect('admin_success', 'Account reset to default password as per config.', site_url('admin'));
         }
     }
 
@@ -534,14 +534,31 @@ class Admin extends CI_Controller {
         $defaultPass = $this->input->post('default-password');
 
         if  ($defaultPass == ''){
-            $this->crud_model->redirect_with_msg('admin_error', 'Direct Access not allowed', site_url('admin'));
+            $this->crud_model->redirect('admin_error', 'Direct Access not allowed', site_url('admin'));
         }
         else {
             if ($this->crud_model->set_config('default_password', $defaultPass)) {
-                $this->crud_model->redirect_with_msg('admin_success', 'Default password updated!', site_url('admin'));
+                $this->crud_model->redirect('admin_success', 'Default password updated!', site_url('admin'));
             }
             else {
-                $this->crud_model->redirect_with_msg('admin_error', 'Undefined error!!', site_url('admin'));
+                $this->crud_model->redirect('admin_error', 'Undefined error!!', site_url('admin'));
+            }
+        }
+    }
+
+    public function update_site_status() {
+        $siteState = $this->input->post('site-offline-select');
+
+        if ($siteState == ''){
+            $this->crud_model->redirect('admin_error', 'Invalid access re-routed', site_url('admin'));
+        }
+        else {
+            // Set config and redirect
+            if ($this->crud_model->set_config('site_offline', $siteState)) {
+                $this->crud_model->redirect('admin_success', 'Site active state changed!', site_url('admin'));
+            }
+            else {
+                $this->crud_model->redirect('admin_error', 'Undefined Error!', site_url('admin'));
             }
         }
     }

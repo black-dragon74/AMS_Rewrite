@@ -14,6 +14,14 @@ class Login extends CI_Controller {
     }
 
     public function index(){
+        // If site is offline load offline view
+        if ($this->crud_model->get_config('site_offline') == 'yes' && $this->input->get('forceLogin') != 'yes'){
+            $data['title'] = 'Maintenance';
+            $this->load->view('maintenance', $data);
+            return;
+        }
+
+        // If already logged in
         if ($this->session->userdata('admin_login') == 1){
             redirect(site_url('admin'), 'refresh');
         }
@@ -36,7 +44,6 @@ class Login extends CI_Controller {
     		redirect (site_url('login'), 'refresh');
     	}
     }
-    // TODO use CRUD for parent, teacher and admin auth
 
     public function validate_login(){
 
