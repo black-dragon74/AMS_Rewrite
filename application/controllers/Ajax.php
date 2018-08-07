@@ -310,4 +310,47 @@ class Ajax extends CI_Controller {
 
         echo $user;
     }
+
+    public function populate_stream_sections(){
+        $streamID = $this->input->post('stream_id');
+
+        // Get the section list
+        $sections = $this->db->get_where('section', array('stream_id' => $streamID));
+
+        if ($sections->num_rows() == 0){
+            echo 'empty';
+        }
+        else {
+            foreach ($sections->result() as $section){
+                echo '<option value="'.$section->name.'">'.$section->name.'</option>';
+            }
+        }
+    }
+
+    public function student_ajax_table(){
+        $streamID = $this->input->post('stream_id');
+        $sectionName = $this->input->post('section_name');
+        $students = '';
+
+        if ($sectionName === 'empty'){
+            $students = $this->db->get_where('student', array('stream' => $streamID));
+        }
+        else {
+            $students = $this->db->get_where('student', array('stream' => $streamID, 'section' => $sectionName));
+        }
+
+        if ($students->num_rows() > 0){
+            foreach ($students->result() as $student) {
+                echo '<tr>
+                <td>'.$student->student_code.'</td>
+                <td>'.$student->name.'</td>
+                <td>'.$student->stream.'</td>
+                <td>'.$student->section.'</td>
+                </tr>';
+            }
+        }
+        else {
+            echo '';
+        }
+    }
 }

@@ -85,9 +85,9 @@ $adminInfo = $this->db->get_where('admin', array('admin_id' => $this->session->u
                     </span>
                 </a>
                 <ul class="treeview-menu student-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i>Admit Students</a></li>
+                    <li><a href="<?php echo site_url('admin/admit_student')?>"><i class="fa fa-circle-o"></i>Admit Students</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i>Bulk Admit Students</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i>Student Information</a></li>
+                    <li><a href="<?php echo site_url('admin/student_details')?>"><i class="fa fa-circle-o"></i>Student Information</a></li>
                     <li><a href="#"><i class="fa fa-circle-o"></i>Student Promotions</a></li>
                 </ul>
             </li>

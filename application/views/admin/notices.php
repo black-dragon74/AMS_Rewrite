@@ -56,9 +56,9 @@
                                             <td><span class="label label-danger" style="padding: 5px; font-size: 12px;"><?php echo $row->stream ?></span></td>
                                             <td>
                                                 <a href="#" onclick="showEditModal(
-                                                        '<?php echo $row->notice_id?>',
+                                                        '<?php echo $row->notice_id ?>',
                                                         '<?php echo $row->notice ?>',
-                                                        '<?php echo $row->stream?>'
+                                                        '<?php echo $row->stream ?>'
                                                         )">
                                                     <span class="label label-success margin-r-5" style="font-size: 18px; text-align: center"><i class="fa fa-pencil"></i> </span>
                                                 </a>

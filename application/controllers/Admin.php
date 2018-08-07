@@ -567,4 +567,76 @@ class Admin extends CI_Controller {
         $data['title'] = 'Admit Student';
         $this->load->view('admin/admit_student', $data);
     }
+
+    public function enroll_student()
+    {
+        // Declare the variables to be used in student table
+        $studentUID = $this->input->post('student-user-id');
+        $studentRegNo = $this->input->post('student-reg-no');
+        $studentName = $this->input->post('student-full-name');
+        $studentParent = $this->input->post('student-parent');
+        $studentClass = $this->input->post('student-class');
+        $studentSection = !empty($this->input->post('student-section')) ? $this->input->post('student-section') : 'empty';
+        $studentDOB = $this->input->post('student-birthday');
+        $studentSex = $this->input->post('student-gender');
+        $studentBlood = $this->input->post('student-blood');
+        $studentAddress = $this->input->post('student-address');
+        $studentPhone = $this->input->post('student-phone');
+        $studentEmail = $this->input->post('student-email');
+        $studentPassword = $this->input->post('student-password');
+        $studentPasswordHint = $this->input->post('student-password-hint');
+
+        // Prevent direct access
+        if (! isset($studentDOB)){
+            $this->crud_model->redirect('student_error', 'Invalid form submission.', site_url('admin/admit_student'));
+        }
+
+        // No need to worry about the empty values as they are taken care of in the form
+        // Let's focus on putting the data in the db.
+        $studentDataDB = array(
+            'uid' => $studentUID,
+            'student_code' => $studentRegNo,
+            'name' => $studentName,
+            'parent_id' => $studentParent,
+            'stream' => $studentClass,
+            'section' => $studentSection,
+            'birthday' => $studentDOB,
+            'sex' => $studentSex,
+            'blood_group' => $studentBlood,
+            'address' => $studentAddress,
+            'phone' => $studentPhone,
+            'email' => $studentEmail,
+            'password' => password_hash($studentPassword, PASSWORD_BCRYPT),
+            'password_hint' => $studentPasswordHint
+        );
+
+        // Check for duplicate userID
+        if ($this->db->get_where('student', array('uid' => $studentDataDB['uid']))->num_rows() > 0) {
+            $this->crud_model->redirect('student_error', 'User ID is already taken.', site_url('admin/admit_student'));
+        }
+        // Check for duplicate reg no
+        elseif ($this->db->get_where('student', array('student_code' => $studentDataDB['student_code']))->num_rows() > 0) {
+            $this->crud_model->redirect('student_error', 'Duplicate registration number.', site_url('admin/admit_student'));
+        }
+        // Check for duplicate email
+        elseif ($this->db->get_where('student', array('email' => $studentDataDB['email']))->num_rows() > 0) {
+            $this->crud_model->redirect('student_error', 'Duplicate email not allowed.', site_url('admin/admit_student'));
+        }
+        // DO your thing
+        else {
+            $dataInserted = $this->db->insert('student', $studentDataDB);
+
+            if ($dataInserted){
+                // Great!
+                $this->crud_model->redirect('student_success', 'Data Inserted Successfully', site_url('admin/admit_student'));
+            }
+            else {
+                $this->crud_model->redirect('student_error', 'Data Insertion Failed', site_url('admin/admit_student'));
+            }
+        }
+    }
+
+    public function student_details(){
+        $this->load->view('admin/student_details', array('title' => 'Student Details'));
+    }
 }

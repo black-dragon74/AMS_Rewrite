@@ -3,7 +3,7 @@
  * Created by nick.
  */
 
-defined ('BASEPATH') or die ('NO direct access allowes');
+defined ('BASEPATH') or die ('NO direct access allowed.');
 
 class Login extends CI_Controller {
 

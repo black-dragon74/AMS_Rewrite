@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.0/normalize.css">
 <!-- JQuery and custom scripts -->
 <script src="<?php echo base_url('assets/js/jquery.js');?>"></script>
-<script src="<? echo base_url('assets/js/bootstrap-notify.js');?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap-notify.js');?>"></script>
 <script type="text/javascript" src="<? echo base_url('assets/js/script.js')?>"></script>
 <!-- Title -->
 <title>
